@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Catalogue professionnel d'artisanat marocain en gros — luminaires, miroirs en laiton, déco murale, mobilier. Composez votre panier et recevez votre facture proforma.">
+<meta property="og:title" content="Catalogue Professionnel – Atelier de Abdul">
+<meta property="og:description" content="Artisanat marocain en vente en gros. Parcourez les produits, composez votre panier et recevez votre facture proforma.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f4ece0">
+<title>Catalogue Professionnel – Atelier de Abdul</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Concept : un catalogue de gros sobre, lisible sur téléphone. Grille de produits, fiche en volet, panier puis proforma.
+   Neutres à dominante verte, laiton en accent (matière du catalogue). */
+:root {
+  --bg: #F1F3EF; --surface: #FFFFFF; --surface-2: #F7F8F5; --ink: #17211D; --muted: #55625A; --line: #D9DDD4;
+  --accent: #7B5C10; --accent-ink: #FFFFFF; --accent-soft: #F2E9D0;
+  --warn: #9A3412; --warn-soft: #FBE9DD; --ok: #1F6B45; --ok-soft: #DDF0E5; --scrim: rgba(12, 18, 15, .55);
+  --f-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --f-body: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1512; --surface: #18211C; --surface-2: #131A16; --ink: #EDEFEA; --muted: #A0AAA3; --line: #2B3630;
+    --accent: #D8B25A; --accent-ink: #1A1408; --accent-soft: #2B2514;
+    --warn: #F2A678; --warn-soft: #3A2218; --ok: #7FCF9F; --ok-soft: #163325; --scrim: rgba(0, 0, 0, .65); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1512; --surface: #18211C; --surface-2: #131A16; --ink: #EDEFEA; --muted: #A0AAA3; --line: #2B3630;
+  --accent: #D8B25A; --accent-ink: #1A1408; --accent-soft: #2B2514;
+  --warn: #F2A678; --warn-soft: #3A2218; --ok: #7FCF9F; --ok-soft: #163325; --scrim: rgba(0, 0, 0, .65); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.5 var(--f-body); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--f-display); letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+/* en-tête */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); margin: 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top .wrap { display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; padding: 10px 0; }
+.brand { font: 700 19px/1 var(--f-display); letter-spacing: -.02em; white-space: nowrap; }
+.brand small { display: block; font: 500 11px/1.2 var(--f-body); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+.search { flex: 1 1 260px; min-width: 0; order: 3; }
+.search input { width: 100%; height: 42px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); padding: 0 14px; }
+.search input::placeholder { color: var(--muted); }
+.cartbtn { margin-left: auto; order: 2; display: flex; align-items: center; gap: 10px; height: 42px; padding: 0 16px; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-weight: 600; white-space: nowrap; }
+.cartbtn .n { background: var(--accent-ink); color: var(--accent); border-radius: 99px; min-width: 24px; height: 24px; padding: 0 7px; display: inline-grid; place-items: center; font: 600 12px var(--f-mono); }
+@media (min-width: 760px) { .search { order: 2; } .cartbtn { order: 3; margin-left: 0; } }
+
+/* présentation */
+.intro { padding: 28px 0 8px; display: grid; gap: 18px; }
+.intro h1 { font-size: clamp(26px, 4.4vw, 40px); line-height: 1.08; max-width: 18ch; }
+.intro p { margin: 0; color: var(--muted); max-width: 60ch; }
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; margin: 0; }
+.terms div { padding: 12px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: -1px -1px 0 0; min-width: 0; }
+.terms dt { font: 600 11px/1.2 var(--f-body); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.terms dd { margin: 4px 0 0; font-weight: 500; }
+
+/* catégories */
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 18px 0 6px; scrollbar-width: thin; }
+.chip { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 7px 14px; font-weight: 500; white-space: nowrap; }
+.chip .c { color: var(--muted); font: 400 12px var(--f-mono); margin-left: 6px; }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.chip[aria-pressed="true"] .c { color: inherit; opacity: .75; }
+.count { color: var(--muted); font-size: 13px; padding: 10px 0 14px; }
+
+/* grille */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+@media (max-width: 520px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+.card { position: relative; display: block; text-align: left; padding: 0; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; overflow: hidden; min-width: 0; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card .ph { display: block; aspect-ratio: 1 / 1; background: var(--surface-2); overflow: hidden; }
+.card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card .meta { display: block; padding: 11px 12px 13px; }
+.ref { font: 500 11px var(--f-mono); color: var(--muted); letter-spacing: .02em; }
+.card h3 { font-size: 15px; line-height: 1.25; margin: 3px 0 8px; min-height: 2.5em; font-weight: 600; font-family: var(--f-body); letter-spacing: 0; }
+.card .pr { display: block; font-size: 13px; color: var(--muted); }
+.card .pr b { font: 600 17px var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag { font-size: 11.5px; padding: 2px 8px; border-radius: 4px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+.tag.moq { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 600; }
+.incart { position: absolute; top: 8px; right: 8px; background: var(--accent); color: var(--accent-ink); border-radius: 99px; font: 600 12px var(--f-mono); padding: 3px 9px; }
+.empty { padding: 48px 0; text-align: center; color: var(--muted); }
+
+/* volets */
+body.lock { overflow: hidden; }
+.ov { position: fixed; inset: 0; z-index: 40; background: var(--scrim); display: grid; place-items: center; padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.ov.side { place-items: stretch end; padding: 0; }
+.panel { background: var(--surface); border-radius: 12px; width: min(940px, 100%); max-height: 100%; overflow: auto; position: relative; overscroll-behavior: contain; }
+.side .panel { width: min(500px, 100%); height: 100%; max-height: none; border-radius: 0; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.wide .panel { width: min(1080px, 100%); }
+.x { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); font-size: 22px; line-height: 1; z-index: 2; display: grid; place-items: center; }
+.pd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+@media (max-width: 720px) { .pd { grid-template-columns: minmax(0, 1fr); } }
+.pd .big { background: var(--surface-2); display: grid; place-items: center; min-height: 260px; max-height: 70dvh; }
+.pd .big img { width: 100%; height: 100%; max-height: 70dvh; object-fit: contain; display: block; }
+.pd .info { padding: 24px 22px 22px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.pd h2 { font-size: 24px; line-height: 1.15; padding-right: 36px; }
+.pd p { margin: 0; color: var(--muted); }
+.vrows { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.vr { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 9px 12px; border-top: 1px solid var(--line); }
+.vr:first-child { border-top: 0; }
+.vr .vl { font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
+.vr .vp { font: 500 14px var(--f-mono); text-align: right; min-width: 70px; font-variant-numeric: tabular-nums; }
+.st { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.st button { width: 36px; height: 36px; border: 0; background: var(--surface-2); font-size: 18px; line-height: 1; }
+.st button:hover { background: var(--accent-soft); }
+.st input { width: 50px; height: 36px; border: 0; border-left: 1px solid var(--line); border-right: 1px solid var(--line); text-align: center; background: var(--surface); font: 500 14px var(--f-mono); -moz-appearance: textfield; appearance: textfield; }
+.st input::-webkit-outer-spin-button, .st input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.moqline { font-size: 13.5px; padding: 9px 12px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.moqline.warn { background: var(--warn-soft); color: var(--warn); }
+.moqline.ok { background: var(--ok-soft); color: var(--ok); }
+label.f { display: grid; gap: 5px; font-size: 13px; font-weight: 500; color: var(--muted); min-width: 0; }
+label.f span.req { color: var(--warn); }
+.inp, textarea.inp, select.inp { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); padding: 9px 12px; color: var(--ink); min-height: 40px; font-weight: 400; }
+textarea.inp { min-height: 64px; resize: vertical; }
+.inp.bad { border-color: var(--warn); background: var(--warn-soft); }
+.err { color: var(--warn); font-size: 12.5px; font-weight: 500; }
+.btn { border: 0; border-radius: 8px; padding: 0 18px; min-height: 44px; font-weight: 600; background: var(--accent); color: var(--accent-ink); display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; text-align: center; }
+.btn.alt { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn.wa { background: #1E7A4C; color: #fff; }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* panier */
+.dh { padding: 18px 56px 14px 20px; border-bottom: 1px solid var(--line); }
+.dh h2 { font-size: 21px; }
+.dh p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+.db { padding: 6px 20px; overflow: auto; flex: 1; min-height: 0; }
+.cl { padding: 14px 0; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+.cl .hd { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.cl .hd img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; background: var(--surface-2); }
+.cl .hd b { font-weight: 600; display: block; line-height: 1.25; }
+.lnk { background: none; border: 0; color: var(--accent); text-decoration: underline; padding: 4px; font-size: 13px; }
+.cl .vr { padding: 4px 0; border: 0; grid-template-columns: minmax(0, 1fr) auto 78px; }
+.cl .vr .vp { font-weight: 600; }
+.df { padding: 14px 20px 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; background: var(--surface); }
+.tot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.tot b { font: 600 22px var(--f-mono); font-variant-numeric: tabular-nums; }
+.small { font-size: 12.5px; color: var(--muted); }
+
+/* commande */
+.co { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+@media (max-width: 860px) { .co { grid-template-columns: minmax(0, 1fr); } }
+.co .form { padding: 26px 24px; display: grid; gap: 18px; align-content: start; }
+.co .sum { background: var(--surface-2); padding: 26px 24px; border-left: 1px solid var(--line); display: grid; gap: 14px; align-content: start; min-width: 0; }
+@media (max-width: 860px) { .co .sum { border-left: 0; border-top: 1px solid var(--line); } }
+.co h2 { font-size: 24px; padding-right: 40px; }
+.co h3 { font-size: 15px; font-family: var(--f-body); font-weight: 600; letter-spacing: 0; }
+.g2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .g2 { grid-template-columns: minmax(0, 1fr); } }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; min-width: 0; }
+legend { padding: 0; font-weight: 600; margin-bottom: 8px; }
+.opt { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; align-items: start; border: 1px solid var(--line); border-radius: 8px; padding: 11px 12px; background: var(--surface); cursor: pointer; }
+.opt input { margin: 3px 0 0; accent-color: var(--accent); width: 18px; height: 18px; }
+.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.opt small { display: block; color: var(--muted); }
+.sl { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 10px; font-size: 13.5px; padding: 8px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.sl .q { font: 500 12px var(--f-mono); color: var(--muted); padding-top: 2px; }
+.sl .t { font: 500 13px var(--f-mono); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sl em { font-style: normal; color: var(--muted); display: block; font-size: 12.5px; }
+.sched { display: grid; gap: 0; font-size: 14px; }
+.sched div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.sched b { font: 600 14px var(--f-mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.status { font-size: 13.5px; padding: 10px 12px; border-radius: 8px; background: var(--ok-soft); color: var(--ok); }
+.status.bad { background: var(--warn-soft); color: var(--warn); }
+.copybox { width: 100%; min-height: 120px; font: 400 12.5px/1.45 var(--f-mono); border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--surface); color: var(--ink); }
+.contact { font-size: 13.5px; color: var(--muted); }
+.contact b { color: var(--ink); font-weight: 600; user-select: all; }
+footer { color: var(--muted); font-size: 13px; padding: 36px 0 8px; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+</style>
+
+<div class="top"><div class="wrap">
+  <div class="brand">Atelier de Abdul<small>Catalogue de gros</small></div>
+  <div class="search"><input id="q" type="search" placeholder="Rechercher un produit ou une référence (ex. MIR-12)" aria-label="Rechercher" autocomplete="off"></div>
+  <button class="cartbtn" id="cartbtn" data-act="cart" aria-label="Ouvrir la commande"><span>Ma commande</span><span class="n" id="cartn">0</span><span id="carttot" class="mono"></span></button>
+</div></div>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Artisanat marocain en gros : laiton, luminaires, mobilier incrusté</h1>
+    <p>Choisissez les modèles, les tailles et les quantités, puis générez votre facture proforma. Les prix sont en euros, départ atelier.</p>
+    <dl class="terms">
+      <div><dt>Minimum de commande</dt><dd>5 pièces par produit<br><span class="small">Tables et mobilier : 1 pièce</span></dd></div>
+      <div><dt>Fabrication</dt><dd>Sur commande<br><span class="small" id="leadline"></span></dd></div>
+      <div><dt>Expédition</dt><dd>Internationale, sur devis<br><span class="small">Facultative</span></dd></div>
+      <div><dt>Paiement</dt><dd>50 % + 50 %<br><span class="small">ou en 3 versements</span></dd></div>
+    </dl>
+  </section>
+  <nav class="chips" id="chips" aria-label="Catégories"></nav>
+  <div class="count" id="count" aria-live="polite"></div>
+  <section class="grid" id="grid"></section>
+  <footer>
+    <div><b>Atelier de Abdul</b> · <span class="mono">+212 687 518 966</span> · <span class="mono">chaabisouk@gmail.com</span></div>
+    <div>Toutes les couleurs sont disponibles sur demande pour le mobilier et les objets incrustés.</div>
+  </footer>
+</main>
+
+<div id="layer"></div>
+
+<script>const WH=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584, 0, 556, 556, 222, 556, 333, 1000, 556, 556, 333, 1000, 667, 333, 1000, 556, 611, 556, 556, 222, 222, 333, 333, 350, 556, 1000, 333, 1000, 500, 333, 944, 556, 500, 667, 278, 333, 556, 556, 556, 556, 260, 556, 333, 737, 370, 556, 584, 333, 737, 333, 400, 584, 333, 333, 333, 556, 537, 278, 333, 333, 365, 556, 834, 834, 834, 611, 667, 667, 667, 667, 667, 667, 1000, 722, 667, 667, 667, 667, 278, 278, 278, 278, 722, 722, 778, 778, 778, 778, 778, 584, 778, 722, 722, 722, 722, 667, 667, 611, 556, 556, 556, 556, 556, 556, 889, 500, 556, 556, 556, 556, 278, 278, 278, 278, 556, 556, 556, 556, 556, 556, 556, 584, 611, 556, 556, 556, 556, 500, 556, 500];
+const WB=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584, 0, 556, 556, 278, 556, 500, 1000, 556, 556, 333, 1000, 667, 333, 1000, 556, 611, 556, 556, 278, 278, 500, 500, 350, 556, 1000, 333, 1000, 556, 333, 944, 556, 500, 667, 278, 333, 556, 556, 556, 556, 280, 556, 333, 737, 370, 556, 584, 333, 737, 333, 400, 584, 333, 333, 333, 611, 556, 278, 333, 333, 365, 556, 834, 834, 834, 611, 722, 722, 722, 722, 722, 722, 1000, 722, 667, 667, 667, 667, 278, 278, 278, 278, 722, 722, 778, 778, 778, 778, 778, 584, 778, 722, 722, 722, 722, 667, 667, 611, 556, 556, 556, 556, 556, 556, 889, 556, 556, 556, 556, 556, 278, 278, 278, 278, 611, 611, 611, 611, 611, 611, 611, 584, 611, 611, 611, 611, 611, 556, 611, 556];
+</script>
+<script>/* Générateur de PDF minimal (Helvetica, WinAnsi) pour la proforma. Aucune dépendance. */
+function pdfEnc(s) {
+  var map = {0x20AC: 0x80, 0x2018: 0x91, 0x2019: 0x92, 0x201C: 0x93, 0x201D: 0x94, 0x2013: 0x96, 0x2014: 0x97, 0x2026: 0x85, 0x202F: 0xA0, 0x2212: 0x2D, 0x153: 0x9C, 0x152: 0x8C};
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = s.charCodeAt(i);
+    if ((c >= 32 && c < 127) || (c >= 160 && c <= 255)) o += String.fromCharCode(c);
+    else if (map[c] !== undefined) o += String.fromCharCode(map[c]);
+    else if (c === 10) o += ' ';
+    else o += '?';
+  }
+  return o;
+}
+function pdfMoney(c) {
+  var neg = c < 0; c = Math.abs(c);
+  var e = Math.floor(c / 100), f = c % 100;
+  var s = String(e).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return (neg ? '-' : '') + s + ',' + (f < 10 ? '0' : '') + f + ' €';
+}
+
+function buildProformaPdf(d) {
+  var PW = 595, PH = 842, M = 40, RIGHT = PW - M;
+  var pages = [], cur = null, y = 0;
+  function esc(s) { return s.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)'); }
+  function tw(s, size, bold) {
+    var t = bold ? WB : WH, e = pdfEnc(s), w = 0;
+    for (var i = 0; i < e.length; i++) w += (t[e.charCodeAt(i)] || 556);
+    return w * size / 1000;
+  }
+  function text(s, x, yy, size, bold, gray) {
+    if (!s) return;
+    cur.push('BT /' + (bold ? 'F2' : 'F1') + ' ' + size + ' Tf ' + (gray === undefined ? 0 : gray) + ' g ' + x.toFixed(2) + ' ' + (PH - yy).toFixed(2) + ' Td (' + esc(pdfEnc(s)) + ') Tj ET');
+  }
+  function textR(s, xr, yy, size, bold, gray) { text(s, xr - tw(s, size, bold), yy, size, bold, gray); }
+  function rect(x, top, w, h, gray) { cur.push(gray + ' g ' + x.toFixed(2) + ' ' + (PH - top - h).toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f'); }
+  function hline(yy, gray, wd) { cur.push((wd || 0.5) + ' w ' + gray + ' G ' + M + ' ' + (PH - yy).toFixed(2) + ' m ' + RIGHT + ' ' + (PH - yy).toFixed(2) + ' l S'); }
+  function wrap(s, width, size, bold) {
+    s = String(s || '');
+    var out = [], paras = s.split('\n');
+    for (var p = 0; p < paras.length; p++) {
+      var words = paras[p].split(/\s+/).filter(Boolean), line = '';
+      if (!words.length) { out.push(''); continue; }
+      for (var i = 0; i < words.length; i++) {
+        var w = words[i];
+        while (tw(w, size, bold) > width) {
+          var k = w.length;
+          while (k > 1 && tw(w.slice(0, k), size, bold) > width) k--;
+          if (line) { out.push(line); line = ''; }
+          out.push(w.slice(0, k)); w = w.slice(k);
+        }
+        var t = line ? line + ' ' + w : w;
+        if (tw(t, size, bold) <= width) line = t; else { out.push(line); line = w; }
+      }
+      if (line) out.push(line);
+    }
+    return out;
+  }
+  function newPage() { cur = []; pages.push(cur); y = M; }
+  function need(h) { if (y + h > PH - 56) { newPage(); return true; } return false; }
+
+  newPage();
+  // ---- en-tête
+  text(d.seller.name, M, y + 16, 19, true);
+  text(d.seller.phone, M, y + 32, 9, false, 0.35);
+  text(d.seller.email, M, y + 44, 9, false, 0.35);
+  textR('FACTURE PROFORMA', RIGHT, y + 16, 16, true);
+  textR('N° ' + d.number, RIGHT, y + 32, 10, false);
+  textR('Date : ' + d.date, RIGHT, y + 45, 10, false);
+  y += 70; hline(y, 0.75, 1); y += 20;
+
+  // ---- client / conditions
+  var colW = (PW - 2 * M - 24) / 2, x2 = M + colW + 24;
+  var left = [], c = d.customer;
+  left.push([c.name, true]);
+  if (c.company) left.push([c.company, false]);
+  wrap(c.address, colW, 10, false).forEach(function (l) { left.push([l, false]); });
+  left.push([[c.zip, c.city].filter(Boolean).join(' '), false]);
+  left.push([c.country, false]);
+  left.push([c.email, false]);
+  left.push([c.phone, false]);
+  var right = [];
+  [['Fabrication', d.leadTime], ['Livraison', d.shipText], ['Livraison souhaitée', d.needBy || 'Pas de date imposée'], ['Paiement', d.payText]].forEach(function (r) {
+    right.push([r[0], 'lab']);
+    wrap(r[1], colW, 10, false).forEach(function (l) { right.push([l, false]); });
+  });
+  var top0 = y;
+  text('CLIENT', M, y, 8, true, 0.45); text('CONDITIONS', x2, y, 8, true, 0.45);
+  var yl = y + 14, yr = y + 14;
+  left.forEach(function (r) { if (r[0]) { text(r[0], M, yl, 10, r[1]); yl += 13; } });
+  right.forEach(function (r) {
+    if (r[1] === 'lab') { text(r[0], x2, yr, 8, true, 0.45); yr += 11; }
+    else { text(r[0], x2, yr, 10, false); yr += 13; }
+  });
+  y = Math.max(yl, yr) + 14;
+
+  // ---- tableau
+  var cx = { ref: M + 4, des: M + 58, var: 300, qty: 418, unit: 488, tot: RIGHT - 4 };
+  function head() {
+    rect(M, y, RIGHT - M, 20, 0.92);
+    text('Réf.', cx.ref, y + 13.5, 8.5, true); text('Désignation', cx.des, y + 13.5, 8.5, true); text('Taille / variante', cx.var, y + 13.5, 8.5, true);
+    textR('Qté', cx.qty, y + 13.5, 8.5, true); textR('P.U.', cx.unit, y + 13.5, 8.5, true); textR('Total', cx.tot, y + 13.5, 8.5, true);
+    y += 20;
+  }
+  head();
+  d.lines.forEach(function (l) {
+    var des = wrap(l.name, 236 - 58 + 10, 9.5, false), va = wrap(l.variant, 108, 9.5, false);
+    var n = Math.max(des.length, va.length), h = n * 12 + 8;
+    if (need(h + 20)) head();
+    text(l.ref, cx.ref, y + 14, 8.5, false, 0.35);
+    des.forEach(function (t, i) { text(t, cx.des, y + 14 + i * 12, 9.5, false); });
+    va.forEach(function (t, i) { text(t, cx.var, y + 14 + i * 12, 9.5, false); });
+    textR(String(l.qty), cx.qty, y + 14, 9.5, false);
+    textR(pdfMoney(l.unit), cx.unit, y + 14, 9.5, false);
+    textR(pdfMoney(l.total), cx.tot, y + 14, 9.5, true);
+    y += h; hline(y, 0.85, 0.4);
+  });
+
+  // ---- totaux
+  need(120); y += 14;
+  var lx = 330;
+  text('Total articles', lx, y + 10, 10, false); textR(pdfMoney(d.itemsTotal), cx.tot, y + 10, 10, false); y += 16;
+  text('Expédition', lx, y + 10, 10, false); textR(d.ship ? 'Sur devis' : 'Non demandée', cx.tot, y + 10, 10, false); y += 10;
+  y += 8; hline(y, 0.2, 0.8);
+  rect(lx - 6, y + 4, RIGHT - lx + 6, 24, 0.92);
+  text('TOTAL (hors expédition)', lx, y + 20, 10.5, true); textR(pdfMoney(d.itemsTotal), cx.tot, y + 20, 12, true);
+  y += 44;
+
+  // ---- échéancier
+  need(40 + d.schedule.length * 18);
+  text('ÉCHÉANCIER DE PAIEMENT', M, y, 8, true, 0.45); y += 8;
+  d.schedule.forEach(function (s, i) {
+    hline(y + 4, 0.85, 0.4);
+    text((i + 1) + '.  ' + s.label, M + 4, y + 17, 10, false);
+    textR(pdfMoney(s.amount), RIGHT - 4, y + 17, 10, true);
+    y += 20;
+  });
+  hline(y + 4, 0.85, 0.4); y += 22;
+
+  if (d.notes) {
+    var nl = wrap(d.notes, RIGHT - M, 10, false);
+    need(30 + nl.length * 13);
+    text('REMARQUES DU CLIENT', M, y, 8, true, 0.45); y += 14;
+    nl.forEach(function (t) { text(t, M, y, 10, false); y += 13; });
+    y += 8;
+  }
+  var legal = wrap(d.legal, RIGHT - M, 8.5, false);
+  need(20 + legal.length * 11);
+  legal.forEach(function (t) { text(t, M, y, 8.5, false, 0.4); y += 11; });
+
+  // ---- pieds de page
+  pages.forEach(function (p, i) {
+    cur = p;
+    hline(PH - 40, 0.8, 0.4);
+    text(d.seller.name + '  ·  ' + d.seller.phone + '  ·  ' + d.seller.email, M, PH - 27, 8, false, 0.45);
+    textR('Page ' + (i + 1) + ' / ' + pages.length, RIGHT, PH - 27, 8, false, 0.45);
+  });
+
+  // ---- assemblage PDF
+  var objs = [];
+  objs[1] = '<< /Type /Catalog /Pages 2 0 R >>';
+  var kids = [];
+  objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+  objs[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+  var n = 5;
+  pages.forEach(function (p) {
+    var stream = p.join('\n');
+    var pageNo = n, contNo = n + 1; n += 2;
+    kids.push(pageNo + ' 0 R');
+    objs[pageNo] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + contNo + ' 0 R >>';
+    objs[contNo] = '<< /Length ' + stream.length + ' >>\nstream\n' + stream + '\nendstream';
+  });
+  objs[2] = '<< /Type /Pages /Kids [' + kids.join(' ') + '] /Count ' + kids.length + ' >>';
+  var out = '%PDF-1.4\n%âãÏÓ\n', offs = [];
+  for (var i = 1; i < objs.length; i++) { offs[i] = out.length; out += i + ' 0 obj\n' + objs[i] + '\nendobj\n'; }
+  var xref = out.length;
+  out += 'xref\n0 ' + objs.length + '\n0000000000 65535 f \n';
+  for (var j = 1; j < objs.length; j++) out += ('0000000000' + offs[j]).slice(-10) + ' 00000 n \n';
+  out += 'trailer\n<< /Size ' + objs.length + ' /Root 1 0 R /Info << /Title (' + esc(pdfEnc('Proforma ' + d.number)) + ') /Producer (Atelier de Abdul) >> >>\nstartxref\n' + xref + '\n%%EOF';
+  var bytes = new Uint8Array(out.length);
+  for (var k = 0; k < out.length; k++) bytes[k] = out.charCodeAt(k) & 255;
+  return bytes;
+}
+if (typeof module !== 'undefined') module.exports = { buildProformaPdf: buildProformaPdf, pdfMoney: pdfMoney, pdfEnc: pdfEnc };
+</script>
+<script>
+const PRODUCTS = [{"img":"img/LUM-01.jpg","cat":"Luminaires","name":"Applique murale ronde – Rosace","variants":[{"l":"30 cm","p":27.0},{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":60.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":120.0},{"l":"100 cm","p":160.0}],"moq":5,"desc":"Applique en métal ajouré, halo lumineux sur le mur.","color":false,"ref":"LUM-01","id":"LUM-01"},{"img":"img/LUM-02.jpg","cat":"Luminaires","name":"Applique murale ronde – Entrelacs","variants":[{"l":"30 cm","p":27.0},{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":60.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":120.0},{"l":"100 cm","p":160.0}],"moq":5,"desc":"Applique en métal ajouré, motif entrelacs.","color":false,"ref":"LUM-02","id":"LUM-02"},{"img":"img/LUM-03.jpg","cat":"Luminaires","name":"Applique murale ronde – Mandala","variants":[{"l":"30 cm","p":27.0},{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":60.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":120.0},{"l":"100 cm","p":160.0}],"moq":5,"desc":"Applique en métal ajouré, motif mandala.","color":false,"ref":"LUM-03","id":"LUM-03"},{"img":"img/LUM-04.jpg","cat":"Luminaires","name":"Applique murale ronde – Arabesques","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":55.0},{"l":"60 cm","p":70.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":130.0},{"l":"100 cm","p":170.0}],"moq":5,"desc":"Applique en métal ajouré, arabesques fines.","color":false,"ref":"LUM-04","id":"LUM-04"},{"img":"img/LUM-05.jpg","cat":"Luminaires","name":"Applique murale ronde – Spirale","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":55.0},{"l":"60 cm","p":70.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":130.0},{"l":"100 cm","p":170.0}],"moq":5,"desc":"Applique en métal ajouré, motif spirale.","color":false,"ref":"LUM-05","id":"LUM-05"},{"img":"img/LUM-06.jpg","cat":"Luminaires","name":"Applique murale ronde – Soleil","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":55.0},{"l":"60 cm","p":70.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":130.0},{"l":"100 cm","p":170.0}],"moq":5,"desc":"Applique en métal ajouré, motif soleil.","color":false,"ref":"LUM-06","id":"LUM-06"},{"img":"img/LUM-07.jpg","cat":"Luminaires","name":"Applique murale ronde – Fleur","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":55.0},{"l":"60 cm","p":70.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":130.0},{"l":"100 cm","p":170.0}],"moq":5,"desc":"Applique en métal ajouré, motif floral.","color":false,"ref":"LUM-07","id":"LUM-07"},{"img":"img/LUM-08.jpg","cat":"Luminaires","name":"Applique murale carrée ajourée","variants":[{"l":"30 cm","p":27.0},{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":60.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":120.0},{"l":"100 cm","p":160.0}],"moq":5,"desc":"Applique carrée en laiton ajouré.","color":false,"ref":"LUM-08","id":"LUM-08"},{"img":"img/LUM-09.jpg","cat":"Luminaires","name":"Suspension goutte – Écailles","variants":[{"l":"30 cm","p":40.0},{"l":"40 cm","p":55.0},{"l":"50 cm","p":75.0},{"l":"60 cm","p":95.0}],"moq":5,"desc":"Suspension en forme de goutte, motif écailles.","color":false,"ref":"LUM-09","id":"LUM-09"},{"img":"img/LUM-10.jpg","cat":"Luminaires","name":"Lanterne polyèdre verre et laiton","variants":[{"l":"30 cm","p":27.0},{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":60.0},{"l":"70 cm","p":90.0},{"l":"80 cm","p":120.0},{"l":"100 cm","p":160.0}],"moq":5,"desc":"Suspension géométrique en verre et laiton.","color":false,"ref":"LUM-10","id":"LUM-10"},{"img":"img/LUM-11.jpg","cat":"Luminaires","name":"Lanterne blanche Art déco","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":65.0},{"l":"60 cm","p":85.0}],"moq":5,"desc":"Lanterne en verre blanc, structure laiton.","color":false,"ref":"LUM-11","id":"LUM-11"},{"img":"img/LUM-12.jpg","cat":"Luminaires","name":"Lanterne octogonale laiton","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":65.0},{"l":"60 cm","p":85.0}],"moq":5,"desc":"Lanterne ajourée de forme octogonale.","color":false,"ref":"LUM-12","id":"LUM-12"},{"img":"img/LUM-13.jpg","cat":"Luminaires","name":"Lanterne longue laiton et verre dépoli","variants":[{"l":"30 cm","p":37.0},{"l":"40 cm","p":45.0},{"l":"50 cm","p":65.0},{"l":"60 cm","p":85.0}],"moq":5,"desc":"Lanterne allongée, verre dépoli.","color":false,"ref":"LUM-13","id":"LUM-13"},{"img":"img/LUM-14.jpg","cat":"Luminaires","name":"Grande lanterne étagée argentée","variants":[{"l":"80 cm","p":240.0},{"l":"100 cm","p":280.0},{"l":"120 cm","p":320.0}],"moq":5,"desc":"Grande lanterne à étages, finition argentée.","color":false,"ref":"LUM-14","id":"LUM-14"},{"img":"img/LUM-15.jpg","cat":"Luminaires","name":"Lanterne bleue (45 × 20 cm)","variants":[{"l":"45 × 20 cm","p":50.0}],"moq":5,"desc":"Lanterne avec verre bleu.","color":false,"ref":"LUM-15","id":"LUM-15"},{"img":"img/LUM-16.jpg","cat":"Luminaires","name":"Suspension goutte – Arabesques","variants":[{"l":"30 cm","p":40.0},{"l":"40 cm","p":55.0},{"l":"50 cm","p":75.0},{"l":"60 cm","p":95.0}],"moq":5,"desc":"Suspension goutte ajourée, arabesques.","color":false,"ref":"LUM-16","id":"LUM-16"},{"img":"img/LUM-17.jpg","cat":"Luminaires","name":"Suspension goutte – Argentée","variants":[{"l":"30 cm","p":40.0},{"l":"40 cm","p":55.0},{"l":"50 cm","p":75.0},{"l":"60 cm","p":95.0}],"moq":5,"desc":"Suspension goutte, finition argentée.","color":false,"ref":"LUM-17","id":"LUM-17"},{"img":"img/LUM-18.jpg","cat":"Luminaires","name":"Suspension bol – Étoiles","variants":[{"l":"30 cm","p":37.0},{"l":"35 cm","p":45.0},{"l":"40 cm","p":65.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":120.0},{"l":"70 cm","p":220.0},{"l":"80 cm","p":280.0}],"moq":5,"desc":"Suspension en forme de bol, motif étoiles.","color":false,"ref":"LUM-18","id":"LUM-18"},{"img":"img/LUM-19.jpg","cat":"Luminaires","name":"Suspension soucoupe – Filigrane","variants":[{"l":"30 cm","p":37.0},{"l":"35 cm","p":45.0},{"l":"40 cm","p":65.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":120.0},{"l":"70 cm","p":220.0},{"l":"80 cm","p":280.0}],"moq":5,"desc":"Suspension plate à filigrane.","color":false,"ref":"LUM-19","id":"LUM-19"},{"img":"img/LUM-20.jpg","cat":"Luminaires","name":"Suspension bol – Lotus","variants":[{"l":"30 cm","p":37.0},{"l":"35 cm","p":45.0},{"l":"40 cm","p":65.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":120.0},{"l":"70 cm","p":220.0},{"l":"80 cm","p":280.0}],"moq":5,"desc":"Suspension ajourée, motif lotus.","color":false,"ref":"LUM-20","id":"LUM-20"},{"img":"img/LUM-21.jpg","cat":"Luminaires","name":"Plafonnier soucoupe – Pétales","variants":[{"l":"30 cm","p":37.0},{"l":"35 cm","p":45.0},{"l":"40 cm","p":65.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":120.0},{"l":"70 cm","p":220.0},{"l":"80 cm","p":280.0}],"moq":5,"desc":"Plafonnier ajouré, motif pétales.","color":false,"ref":"LUM-21","id":"LUM-21"},{"img":"img/LUM-22.jpg","cat":"Luminaires","name":"Suspension boule – Mosaïque","variants":[{"l":"30 cm","p":37.0},{"l":"35 cm","p":45.0},{"l":"40 cm","p":65.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":120.0},{"l":"70 cm","p":220.0},{"l":"80 cm","p":280.0}],"moq":5,"desc":"Grande boule ajourée, motif mosaïque.","color":false,"ref":"LUM-22","id":"LUM-22"},{"img":"img/LUM-23.jpg","cat":"Luminaires","name":"Suspension globe – Rosace","variants":[{"l":"20 cm","p":25.0},{"l":"25 cm","p":35.0},{"l":"33 cm","p":60.0},{"l":"40 cm","p":75.0},{"l":"50 cm","p":130.0},{"l":"60 cm","p":165.0},{"l":"70 cm","p":245.0}],"moq":5,"desc":"Globe ajouré, motif rosace.","color":false,"ref":"LUM-23","id":"LUM-23"},{"img":"img/LUM-24.jpg","cat":"Luminaires","name":"Suspension globe – Écailles dorées","variants":[{"l":"20 cm","p":25.0},{"l":"25 cm","p":35.0},{"l":"33 cm","p":60.0},{"l":"40 cm","p":75.0},{"l":"50 cm","p":130.0},{"l":"60 cm","p":165.0},{"l":"70 cm","p":245.0}],"moq":5,"desc":"Globe doré ajouré, motif écailles.","color":false,"ref":"LUM-24","id":"LUM-24"},{"img":"img/LUM-25.jpg","cat":"Luminaires","name":"Suspension sphère – Écailles ajourées","variants":[{"l":"20 cm","p":25.0},{"l":"25 cm","p":35.0},{"l":"33 cm","p":60.0},{"l":"40 cm","p":75.0},{"l":"50 cm","p":130.0},{"l":"60 cm","p":165.0},{"l":"70 cm","p":245.0}],"moq":5,"desc":"Sphère ajourée, motif écailles.","color":false,"ref":"LUM-25","id":"LUM-25"},{"img":"img/LUM-26.jpg","cat":"Luminaires","name":"Suspension disque martelé en laiton","variants":[{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":65.0},{"l":"80 cm","p":135.0},{"l":"100 cm","p":200.0}],"moq":5,"desc":"Disque de laiton martelé, 100 % laiton.","color":false,"ref":"LUM-26","id":"LUM-26"},{"img":"img/LUM-27.jpg","cat":"Luminaires","name":"Suspension plissée éventail en laiton","variants":[{"l":"40 cm","p":45.0},{"l":"50 cm","p":65.0},{"l":"60 cm","p":85.0},{"l":"80 cm","p":125.0}],"moq":5,"desc":"Abat-jour plissé en laiton.","color":false,"ref":"LUM-27","id":"LUM-27"},{"img":"img/LUM-28.jpg","cat":"Luminaires","name":"Suspension coquille en laiton","variants":[{"l":"30 cm","p":25.0},{"l":"40 cm","p":35.0},{"l":"50 cm","p":45.0},{"l":"60 cm","p":65.0},{"l":"80 cm","p":115.0},{"l":"100 cm","p":135.0}],"moq":5,"desc":"Suspension en laiton, formes de coquille.","color":false,"ref":"LUM-28","id":"LUM-28"},{"img":"img/LUM-29.jpg","cat":"Luminaires","name":"Suspension fleur à pétales en laiton","variants":[{"l":"40 cm","p":55.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":115.0}],"moq":5,"desc":"Grandes pétales de laiton.","color":false,"ref":"LUM-29","id":"LUM-29"},{"img":"img/LUM-30.jpg","cat":"Luminaires","name":"Suspension dôme en laiton poli","variants":[{"l":"30 cm","p":35.0},{"l":"40 cm","p":55.0},{"l":"50 cm","p":65.0}],"moq":5,"desc":"Dôme de laiton poli.","color":false,"ref":"LUM-30","id":"LUM-30"},{"img":"img/LUM-31.jpg","cat":"Luminaires","name":"Suspension ajourée – Médaillon","variants":[{"l":"30 cm","p":45.0},{"l":"40 cm","p":60.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":115.0}],"moq":5,"desc":"Laiton ajouré, projection de lumière décorative.","color":false,"ref":"LUM-31","id":"LUM-31"},{"img":"img/LUM-32.jpg","cat":"Luminaires","name":"Suspension sphère ajourée – Mandala","variants":[{"l":"30 cm","p":45.0},{"l":"40 cm","p":60.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":115.0}],"moq":5,"desc":"Sphère de laiton ajouré.","color":false,"ref":"LUM-32","id":"LUM-32"},{"img":"img/LUM-33.jpg","cat":"Luminaires","name":"Suspension ajourée – Étoile","variants":[{"l":"30 cm","p":45.0},{"l":"40 cm","p":60.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":115.0}],"moq":5,"desc":"Laiton ajouré, motif étoile.","color":false,"ref":"LUM-33","id":"LUM-33"},{"img":"img/LUM-34.jpg","cat":"Luminaires","name":"Suspension ajourée – Lotus","variants":[{"l":"30 cm","p":45.0},{"l":"40 cm","p":60.0},{"l":"50 cm","p":85.0},{"l":"60 cm","p":115.0}],"moq":5,"desc":"Laiton ajouré, motif lotus.","color":false,"ref":"LUM-34","id":"LUM-34"},{"img":"img/MIR-01.jpg","cat":"Miroirs","name":"Miroir galet asymétrique","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0}],"moq":5,"desc":"Cadre en laiton massif poli.","color":false,"ref":"MIR-01","id":"MIR-01"},{"img":"img/MIR-02.jpg","cat":"Miroirs","name":"Miroir galet large","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0}],"moq":5,"desc":"Cadre en laiton massif poli.","color":false,"ref":"MIR-02","id":"MIR-02"},{"img":"img/MIR-03.jpg","cat":"Miroirs","name":"Miroir organique – goutte","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Cadre en laiton doré.","color":false,"ref":"MIR-03","id":"MIR-03"},{"img":"img/MIR-04.jpg","cat":"Miroirs","name":"Miroir trapèze arrondi","variants":[{"l":"30 × 15 cm","p":9.0},{"l":"40 × 24 cm","p":12.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Cadre en laiton doré, formes douces.","color":false,"ref":"MIR-04","id":"MIR-04"},{"img":"img/MIR-05.jpg","cat":"Miroirs","name":"Miroir capsule asymétrique","variants":[{"l":"30 × 15 cm","p":10.0},{"l":"40 × 24 cm","p":15.0},{"l":"50 × 33 cm","p":22.0},{"l":"60 × 40 cm","p":28.0}],"moq":5,"desc":"Cadre en laiton massif poli.","color":false,"ref":"MIR-05","id":"MIR-05"},{"img":"img/MIR-06.jpg","cat":"Miroirs","name":"Miroir triptyque pliant en laiton","variants":[{"l":"Petit modèle 50 × 35 cm","p":35.0},{"l":"Moyen modèle 60 × 50 cm","p":45.0},{"l":"Grand modèle 76 × 70 cm","p":55.0}],"moq":5,"desc":"Triptyque marocain, cadres laiton assemblés à la main.","color":false,"ref":"MIR-06","id":"MIR-06"},{"img":"img/MIR-07.jpg","cat":"Miroirs","name":"Miroir galet allongé","variants":[{"l":"20 cm","p":9.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":18.0},{"l":"50 cm","p":22.0}],"moq":5,"desc":"Cadre en laiton massif.","color":false,"ref":"MIR-07","id":"MIR-07"},{"img":"img/MIR-08.jpg","cat":"Miroirs","name":"Miroir goutte en laiton","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Forme de goutte, cadre laiton doré.","color":false,"ref":"MIR-08","id":"MIR-08"},{"img":"img/MIR-09.jpg","cat":"Miroirs","name":"Miroir galet horizontal","variants":[{"l":"27 × 22 cm","p":10.0},{"l":"37 × 33 cm","p":12.0},{"l":"47 × 40 cm","p":18.0},{"l":"57 × 50 cm","p":22.0}],"moq":5,"desc":"Cadre laiton, idéal en composition murale.","color":false,"ref":"MIR-09","id":"MIR-09"},{"img":"img/MIR-10.jpg","cat":"Miroirs","name":"Miroir goutte inclinée","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0}],"moq":5,"desc":"Cadre en laiton antique.","color":false,"ref":"MIR-10","id":"MIR-10"},{"img":"img/MIR-11.jpg","cat":"Miroirs","name":"Grand miroir sur pied arqué","variants":[{"l":"140 × 60 cm","p":130.0},{"l":"120 × 60 cm","p":110.0},{"l":"100 × 60 cm","p":85.0}],"moq":5,"desc":"Miroir de sol, cadre laiton renforcé.","color":false,"ref":"MIR-11","id":"MIR-11"},{"img":"img/MIR-12.jpg","cat":"Miroirs","name":"Miroir cactus en laiton","variants":[{"l":"30 cm","p":20.0},{"l":"40 cm","p":25.0},{"l":"50 cm","p":30.0}],"moq":5,"desc":"Forme cactus.","color":false,"ref":"MIR-12","id":"MIR-12"},{"img":"img/MIR-13.jpg","cat":"Miroirs","name":"Miroir cœur en laiton","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0}],"moq":5,"desc":"Forme cœur.","color":false,"ref":"MIR-13","id":"MIR-13"},{"img":"img/MIR-14.jpg","cat":"Miroirs","name":"Miroir œil en laiton","variants":[{"l":"25 × 18 cm","p":8.0},{"l":"32 × 23 cm","p":12.0},{"l":"40 × 29 cm","p":16.0},{"l":"47 × 34 cm","p":18.0}],"moq":5,"desc":"Forme œil.","color":false,"ref":"MIR-14","id":"MIR-14"},{"img":"img/MIR-15.jpg","cat":"Miroirs","name":"Miroir ovale en laiton","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":20.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Forme ovale.","color":false,"ref":"MIR-15","id":"MIR-15"},{"img":"img/MIR-16.jpg","cat":"Miroirs","name":"Miroir rond en laiton","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0},{"l":"60 cm","p":25.0},{"l":"70 cm","p":35.0}],"moq":5,"desc":"Forme ronde, cadre laiton.","color":false,"ref":"MIR-16","id":"MIR-16"},{"img":"img/MIR-17.jpg","cat":"Miroirs","name":"Miroir rectangulaire à angles arrondis","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0},{"l":"70 × 50 cm","p":35.0},{"l":"80 × 50 cm","p":45.0}],"moq":5,"desc":"Cadre en laiton.","color":false,"ref":"MIR-17","id":"MIR-17"},{"img":"img/MIR-18.jpg","cat":"Miroirs","name":"Miroir rond asymétrique","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0},{"l":"60 cm","p":25.0}],"moq":5,"desc":"Cadre en laiton.","color":false,"ref":"MIR-18","id":"MIR-18"},{"img":"img/MIR-19.jpg","cat":"Miroirs","name":"Miroir porte (arche) en laiton","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0},{"l":"70 × 50 cm","p":35.0},{"l":"80 × 50 cm","p":45.0}],"moq":5,"desc":"Arche marocaine.","color":false,"ref":"MIR-19","id":"MIR-19"},{"img":"img/MIR-20.jpg","cat":"Miroirs","name":"Miroir carré arrondi en laiton","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":12.0},{"l":"40 cm","p":16.0},{"l":"50 cm","p":18.0},{"l":"60 cm","p":25.0},{"l":"70 cm","p":35.0}],"moq":5,"desc":"Cadre en laiton.","color":false,"ref":"MIR-20","id":"MIR-20"},{"img":"img/MIR-21.jpg","cat":"Miroirs","name":"Petits miroirs laiton – Assortiment 1","variants":[{"l":"10 cm","p":2.0},{"l":"15 cm","p":3.5}],"moq":50,"desc":"Petits miroirs en laiton, formes assorties. Minimum de commande : 50 pièces.","color":false,"ref":"MIR-21","id":"MIR-21"},{"img":"img/MIR-22.jpg","cat":"Miroirs","name":"Petits miroirs laiton – Assortiment 2","variants":[{"l":"10 cm","p":2.0},{"l":"15 cm","p":3.5}],"moq":50,"desc":"Petits miroirs en laiton, formes assorties. Minimum de commande : 50 pièces.","color":false,"ref":"MIR-22","id":"MIR-22"},{"img":"img/MIR-23.jpg","cat":"Miroirs","name":"Petits miroirs laiton – Assortiment 3","variants":[{"l":"10","p":2.0},{"l":"15","p":3.5},{"l":"20","p":8.0}],"moq":50,"desc":"Petits miroirs en laiton, formes assorties. Minimum de commande : 50 pièces.","color":false,"ref":"MIR-23","id":"MIR-23"},{"img":"img/MIR-24.jpg","cat":"Miroirs","name":"Petits miroirs laiton – Assortiment 4","variants":[{"l":"10","p":2.0},{"l":"15","p":3.5},{"l":"20","p":8.0}],"moq":50,"desc":"Petits miroirs en laiton, formes assorties. Minimum de commande : 50 pièces.","color":false,"ref":"MIR-24","id":"MIR-24"},{"img":"img/MIR-25.jpg","cat":"Miroirs","name":"Petits miroirs laiton – Assortiment 5","variants":[{"l":"10","p":2.0},{"l":"15","p":3.5}],"moq":50,"desc":"Petits miroirs en laiton, formes assorties. Minimum de commande : 50 pièces.","color":false,"ref":"MIR-25","id":"MIR-25"},{"img":"img/MIR-26.jpg","cat":"Miroirs","name":"Miroir ovale asymétrique","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Cadre en laiton doré.","color":false,"ref":"MIR-26","id":"MIR-26"},{"img":"img/MIR-27.jpg","cat":"Miroirs","name":"Miroir trèfle en laiton","variants":[{"l":"20 cm","p":8.0},{"l":"30 cm","p":13.0},{"l":"40 cm","p":18.0},{"l":"50 cm","p":22.0}],"moq":5,"desc":"Forme trèfle.","color":false,"ref":"MIR-27","id":"MIR-27"},{"img":"img/MIR-28.jpg","cat":"Miroirs","name":"Miroir galet vertical","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0},{"l":"70 × 50 cm","p":35.0}],"moq":5,"desc":"Cadre en laiton.","color":false,"ref":"MIR-28","id":"MIR-28"},{"img":"img/MIR-29.jpg","cat":"Miroirs","name":"Miroir rectangulaire arrondi","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0},{"l":"70 × 50 cm","p":35.0},{"l":"80 × 50 cm","p":45.0}],"moq":5,"desc":"Cadre laiton fin.","color":false,"ref":"MIR-29","id":"MIR-29"},{"img":"img/MIR-30.jpg","cat":"Miroirs","name":"Mot « LOVE » en lettres miroir laiton","variants":[{"l":"30 cm","p":75.0},{"l":"40 cm","p":85.0},{"l":"50 cm","p":95.0}],"moq":5,"desc":"Lettres décoratives en laiton et miroir.","color":false,"ref":"MIR-30","id":"MIR-30"},{"img":"img/MIR-31.jpg","cat":"Miroirs","name":"Mot « DREAM » en lettres miroir laiton","variants":[{"l":"30 cm","p":95.0},{"l":"40 cm","p":115.0},{"l":"50 cm","p":125.0}],"moq":5,"desc":"Lettres décoratives en laiton et miroir.","color":false,"ref":"MIR-31","id":"MIR-31"},{"img":"img/MIR-32.jpg","cat":"Miroirs","name":"Mot « LUXURY » en lettres miroir laiton","variants":[{"l":"30 cm","p":115.0},{"l":"40 cm","p":135.0},{"l":"50 cm","p":155.0}],"moq":5,"desc":"Lettres décoratives en laiton et miroir.","color":false,"ref":"MIR-32","id":"MIR-32"},{"img":"img/MIR-33.jpg","cat":"Miroirs","name":"Mot ou prénom sur mesure – lettres miroir","variants":[{"l":"4 lettres – 30 cm","p":75.0},{"l":"4 lettres – 40 cm","p":85.0},{"l":"4 lettres – 50 cm","p":95.0},{"l":"5 lettres – 30 cm","p":95.0},{"l":"5 lettres – 40 cm","p":115.0},{"l":"5 lettres – 50 cm","p":125.0},{"l":"6 lettres – 30 cm","p":115.0},{"l":"6 lettres – 40 cm","p":135.0},{"l":"6 lettres – 50 cm","p":155.0}],"moq":5,"desc":"Lettres en laiton et miroir pour mot ou prénom (4, 5 ou 6 lettres).","color":false,"ref":"MIR-33","id":"MIR-33"},{"img":"img/MIR-34.jpg","cat":"Miroirs","name":"Miroir ondulé en laiton","variants":[{"l":"36 × 20 cm","p":12.0},{"l":"45 × 28 cm","p":15.0},{"l":"50 × 33 cm","p":22.0},{"l":"60 × 40 cm","p":28.0},{"l":"70 × 50 cm","p":35.0}],"moq":5,"desc":"Forme ondulée.","color":false,"ref":"MIR-34","id":"MIR-34"},{"img":"img/MIR-35.jpg","cat":"Miroirs","name":"Miroir forme libre en laiton","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Cadre laiton, forme libre.","color":false,"ref":"MIR-35","id":"MIR-35"},{"img":"img/MIR-36.jpg","cat":"Miroirs","name":"Miroir trapèze asymétrique","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Cadre en laiton.","color":false,"ref":"MIR-36","id":"MIR-36"},{"img":"img/MIR-37.jpg","cat":"Miroirs","name":"Miroir arche ornée en laiton","variants":[{"l":"36 × 20 cm","p":12.0},{"l":"45 × 28 cm","p":15.0},{"l":"50 × 33 cm","p":22.0},{"l":"60 × 40 cm","p":28.0}],"moq":5,"desc":"Arche marocaine ornée.","color":false,"ref":"MIR-37","id":"MIR-37"},{"img":"img/MIR-38.jpg","cat":"Miroirs","name":"Miroir nuage en laiton","variants":[{"l":"36 × 20 cm","p":10.0},{"l":"45 × 28 cm","p":13.0},{"l":"50 × 33 cm","p":18.0},{"l":"60 × 40 cm","p":22.0}],"moq":5,"desc":"Forme nuage.","color":false,"ref":"MIR-38","id":"MIR-38"},{"img":"img/MIR-39.jpg","cat":"Miroirs","name":"Trio de miroirs lune en laiton","variants":[{"l":"Série 3 pièces (10/15/20 cm)","p":18.0}],"moq":5,"desc":"Série de 3 miroirs en forme de lune.","color":false,"ref":"MIR-39","id":"MIR-39"},{"img":"img/MIR-40.jpg","cat":"Miroirs","name":"Trio de miroirs soleil en laiton","variants":[{"l":"Série 3 pièces (10/15/20 cm)","p":20.0}],"moq":5,"desc":"Série de 3 miroirs soleil.","color":false,"ref":"MIR-40","id":"MIR-40"},{"img":"img/DEC-01.jpg","cat":"Déco murale","name":"Guirlande murale lunes et feuilles","variants":[{"l":"60 cm","p":8.0},{"l":"80 cm","p":11.0},{"l":"100 cm","p":13.0}],"moq":5,"desc":"Guirlande verticale en laiton.","color":false,"ref":"DEC-01","id":"DEC-01"},{"img":"img/DEC-02.jpg","cat":"Déco murale","name":"Oiseaux en fil de laiton (série de 3)","variants":[{"l":"Série 3 pièces (25/20/15 cm)","p":9.0}],"moq":5,"desc":"Oiseaux en fil de laiton.","color":false,"ref":"DEC-02","id":"DEC-02"},{"img":"img/DEC-03.jpg","cat":"Déco murale","name":"Feuilles de monstera en fil de laiton (série de 3)","variants":[{"l":"Série 3 pièces (25/20/15 cm)","p":9.0}],"moq":5,"desc":"Feuilles en fil de laiton.","color":false,"ref":"DEC-03","id":"DEC-03"},{"img":"img/DEC-04.jpg","cat":"Déco murale","name":"Nuages en fil de laiton (série de 4)","variants":[{"l":"Série (25/20/15 cm)","p":9.0}],"moq":5,"desc":"Nuages en fil de laiton.","color":false,"ref":"DEC-04","id":"DEC-04"},{"img":"img/DEC-05.jpg","cat":"Déco murale","name":"Hirondelles en fil de laiton (série de 3)","variants":[{"l":"Série 3 pièces (25/20/15 cm)","p":9.0}],"moq":5,"desc":"Hirondelles en fil de laiton.","color":false,"ref":"DEC-05","id":"DEC-05"},{"img":"img/DEC-06.jpg","cat":"Déco murale","name":"Mots en cercle – fil de laiton","variants":[{"l":"25 cm","p":12.0}],"moq":5,"desc":"Cercles avec mots (hello, love, home).","color":false,"ref":"DEC-06","id":"DEC-06"},{"img":"img/DEC-07.jpg","cat":"Déco murale","name":"Crochets cactus en laiton","variants":[{"l":"10 cm","p":5.0},{"l":"15 cm","p":8.0}],"moq":5,"desc":"Crochets muraux en laiton.","color":false,"ref":"DEC-07","id":"DEC-07"},{"img":"img/DEC-08.jpg","cat":"Déco murale","name":"Libellules en laiton","variants":[{"l":"15 cm","p":7.0},{"l":"20 cm","p":12.0}],"moq":5,"desc":"Libellules ajourées.","color":false,"ref":"DEC-08","id":"DEC-08"},{"img":"img/DEC-09.jpg","cat":"Déco murale","name":"Cercle feuille en laiton","variants":[{"l":"20 cm","p":12.0},{"l":"30 cm","p":15.0}],"moq":5,"desc":"Cercle de laiton avec feuille.","color":false,"ref":"DEC-09","id":"DEC-09"},{"img":"img/DEC-10.jpg","cat":"Déco murale","name":"Couronne branchage en fil de laiton","variants":[{"l":"20 cm","p":12.0},{"l":"30 cm","p":15.0}],"moq":5,"desc":"Couronne décorative.","color":false,"ref":"DEC-10","id":"DEC-10"},{"img":"img/DEC-11.jpg","cat":"Déco murale","name":"Envol d'oiseaux en laiton (série de 3)","variants":[{"l":"Série 3 pièces (10/15/20 cm)","p":9.0}],"moq":5,"desc":"Oiseaux en laiton découpé.","color":false,"ref":"DEC-11","id":"DEC-11"},{"img":"img/DEC-12.jpg","cat":"Déco murale","name":"Set d'hirondelles en laiton (laiton découpé)","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-12","id":"DEC-12"},{"img":"img/DEC-13.jpg","cat":"Déco murale","name":"Set de colombes en laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-13","id":"DEC-13"},{"img":"img/DEC-14.jpg","cat":"Déco murale","name":"Set de cactus en laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-14","id":"DEC-14"},{"img":"img/DEC-15.jpg","cat":"Déco murale","name":"Set d'hirondelles en laiton – modèle 2","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-15","id":"DEC-15"},{"img":"img/DEC-16.jpg","cat":"Déco murale","name":"Set de nuages en laiton (3 pièces)","variants":[{"l":"Set 3 pièces","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-16","id":"DEC-16"},{"img":"img/DEC-17.jpg","cat":"Déco murale","name":"Set de lunes en laiton (3 pièces)","variants":[{"l":"Set 3 pièces","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-17","id":"DEC-17"},{"img":"img/DEC-18.jpg","cat":"Déco murale","name":"Set de palmiers en laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-18","id":"DEC-18"},{"img":"img/DEC-19.jpg","cat":"Déco murale","name":"Set de feuilles de monstera (3 pièces)","variants":[{"l":"Set 3 pièces","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-19","id":"DEC-19"},{"img":"img/DEC-20.jpg","cat":"Déco murale","name":"Set d'étoiles en laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-20","id":"DEC-20"},{"img":"img/DEC-21.jpg","cat":"Déco murale","name":"Feuilles de palmier en laiton – modèle 1","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-21","id":"DEC-21"},{"img":"img/DEC-22.jpg","cat":"Déco murale","name":"Feuille de palmier en laiton – modèle 2","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-22","id":"DEC-22"},{"img":"img/DEC-23.jpg","cat":"Déco murale","name":"Feuille de palmier en laiton – modèle 3","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-23","id":"DEC-23"},{"img":"img/DEC-24.jpg","cat":"Déco murale","name":"Feuilles de bananier en laiton","variants":[{"l":"Petit modèle","p":9.0},{"l":"Grand modèle","p":13.0}],"moq":5,"desc":"Feuilles en laiton.","color":false,"ref":"DEC-24","id":"DEC-24"},{"img":"img/DEC-25.jpg","cat":"Déco murale","name":"Set d'étoiles bombées en laiton","variants":[{"l":"Set","p":13.0}],"moq":5,"desc":"","color":false,"ref":"DEC-25","id":"DEC-25"},{"img":"img/DEC-26.jpg","cat":"Déco murale","name":"Set de lunes bombées en laiton","variants":[{"l":"Set","p":13.0}],"moq":5,"desc":"","color":false,"ref":"DEC-26","id":"DEC-26"},{"img":"img/DEC-27.jpg","cat":"Déco murale","name":"Set de nuages en fil de laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-27","id":"DEC-27"},{"img":"img/DEC-28.jpg","cat":"Déco murale","name":"Set d'étoiles en fil de laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-28","id":"DEC-28"},{"img":"img/DEC-29.jpg","cat":"Déco murale","name":"Set de lunes en fil de laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-29","id":"DEC-29"},{"img":"img/DEC-30.jpg","cat":"Déco murale","name":"Set d'hirondelles en fil de laiton","variants":[{"l":"Set","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-30","id":"DEC-30"},{"img":"img/DEC-31.jpg","cat":"Déco murale","name":"Mot « dream » en nuage – fil de laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-31","id":"DEC-31"},{"img":"img/DEC-32.jpg","cat":"Déco murale","name":"Mot en fil de laiton (personnalisable)","variants":[{"l":"Pièce","p":6.0}],"moq":5,"desc":"","color":false,"ref":"DEC-32","id":"DEC-32"},{"img":"img/DEC-33.jpg","cat":"Déco murale","name":"Yeux en fil de laiton (série)","variants":[{"l":"Série (20/15/10 cm)","p":10.0}],"moq":5,"desc":"Série d'yeux en fil de laiton.","color":false,"ref":"DEC-33","id":"DEC-33"},{"img":"img/DEC-34.jpg","cat":"Déco murale","name":"Palmiers en fil de laiton (série)","variants":[{"l":"Série","p":10.0}],"moq":5,"desc":"Palmiers en fil de laiton.","color":false,"ref":"DEC-34","id":"DEC-34"},{"img":"img/DEC-35.jpg","cat":"Déco murale","name":"Ananas en fil de laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-35","id":"DEC-35"},{"img":"img/DEC-36.jpg","cat":"Déco murale","name":"Cercle feuille en laiton","variants":[{"l":"Pièce","p":10.0}],"moq":5,"desc":"","color":false,"ref":"DEC-36","id":"DEC-36"},{"img":"img/DEC-37.jpg","cat":"Déco murale","name":"Cercle avec nom en fil de laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"Cercle personnalisable avec prénom.","color":false,"ref":"DEC-37","id":"DEC-37"},{"img":"img/DEC-38.jpg","cat":"Déco murale","name":"Mobile en laiton – lunes et étoiles","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-38","id":"DEC-38"},{"img":"img/DEC-39.jpg","cat":"Déco murale","name":"Mobile en laiton – demi-lunes","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"DEC-39","id":"DEC-39"},{"img":"img/DEC-40.jpg","cat":"Déco murale","name":"Mobile suspendu en laiton – constellation","variants":[{"l":"Pièce","p":11.0}],"moq":5,"desc":"","color":false,"ref":"DEC-40","id":"DEC-40"},{"img":"img/DEC-41.jpg","cat":"Déco murale","name":"Guirlande en laiton – lunes et étoiles (chaque)","variants":[{"l":"Pièce (chaque)","p":7.0}],"moq":5,"desc":"","color":false,"ref":"DEC-41","id":"DEC-41"},{"img":"img/PAT-01.jpg","cat":"Patères","name":"Patère croix en laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"PAT-01","id":"PAT-01"},{"img":"img/PAT-02.jpg","cat":"Patères","name":"Patère cœur en laiton","variants":[{"l":"Pièce","p":8.0}],"moq":5,"desc":"","color":false,"ref":"PAT-02","id":"PAT-02"},{"img":"img/PAT-03.jpg","cat":"Patères","name":"Patère feuille de monstera en laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"PAT-03","id":"PAT-03"},{"img":"img/PAT-04.jpg","cat":"Patères","name":"Patère nuage en laiton","variants":[{"l":"Pièce","p":7.0}],"moq":5,"desc":"","color":false,"ref":"PAT-04","id":"PAT-04"},{"img":"img/PAT-05.jpg","cat":"Patères","name":"Patère coquillage en laiton","variants":[{"l":"Pièce","p":7.0}],"moq":5,"desc":"","color":false,"ref":"PAT-05","id":"PAT-05"},{"img":"img/PAT-06.jpg","cat":"Patères","name":"Patère lune en laiton","variants":[{"l":"Pièce","p":7.0}],"moq":5,"desc":"","color":false,"ref":"PAT-06","id":"PAT-06"},{"img":"img/PAT-07.jpg","cat":"Patères","name":"Patère œil en laiton","variants":[{"l":"Pièce","p":11.0}],"moq":5,"desc":"","color":false,"ref":"PAT-07","id":"PAT-07"},{"img":"img/PAT-08.jpg","cat":"Patères","name":"Patère cactus en laiton (modèle 1)","variants":[{"l":"Pièce","p":7.0}],"moq":5,"desc":"","color":false,"ref":"PAT-08","id":"PAT-08"},{"img":"img/PAT-09.jpg","cat":"Patères","name":"Patère étoile en laiton","variants":[{"l":"Pièce","p":5.0}],"moq":5,"desc":"","color":false,"ref":"PAT-09","id":"PAT-09"},{"img":"img/PAT-10.jpg","cat":"Patères","name":"Patère cactus en laiton (modèle 2)","variants":[{"l":"Pièce","p":6.0}],"moq":5,"desc":"","color":false,"ref":"PAT-10","id":"PAT-10"},{"img":"img/PAT-11.jpg","cat":"Patères","name":"Patère chat en laiton","variants":[{"l":"Pièce","p":10.0}],"moq":5,"desc":"","color":false,"ref":"PAT-11","id":"PAT-11"},{"img":"img/PAT-12.jpg","cat":"Patères","name":"Grande patère œil en laiton","variants":[{"l":"Pièce","p":18.0}],"moq":5,"desc":"","color":false,"ref":"PAT-12","id":"PAT-12"},{"img":"img/ACC-01.jpg","cat":"Bougeoirs & accessoires","name":"Bol en laiton","variants":[{"l":"Petit modèle","p":5.0},{"l":"Grand modèle","p":8.0}],"moq":5,"desc":"Bols en laiton.","color":false,"ref":"ACC-01","id":"ACC-01"},{"img":"img/ACC-02.jpg","cat":"Bougeoirs & accessoires","name":"Applique bougie en laiton","variants":[{"l":"Pièce","p":16.0}],"moq":5,"desc":"","color":false,"ref":"ACC-02","id":"ACC-02"},{"img":"img/ACC-03.jpg","cat":"Bougeoirs & accessoires","name":"Chandelier cœur sacré en laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"ACC-03","id":"ACC-03"},{"img":"img/ACC-04.jpg","cat":"Bougeoirs & accessoires","name":"Chandeliers cactus, palmier et feuille","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"ACC-04","id":"ACC-04"},{"img":"img/ACC-05.jpg","cat":"Bougeoirs & accessoires","name":"Chandeliers lune, soleil en laiton","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"ACC-05","id":"ACC-05"},{"img":"img/ACC-06.jpg","cat":"Bougeoirs & accessoires","name":"Pot en laiton (sundrie)","variants":[{"l":"Pièce","p":9.0}],"moq":5,"desc":"","color":false,"ref":"ACC-06","id":"ACC-06"},{"img":"img/ACC-07.jpg","cat":"Bougeoirs & accessoires","name":"Porte-savon en laiton","variants":[{"l":"Pièce","p":3.0}],"moq":5,"desc":"","color":false,"ref":"ACC-07","id":"ACC-07"},{"img":"img/ACC-08.jpg","cat":"Bougeoirs & accessoires","name":"Bougeoirs en laiton","variants":[{"l":"Pièce","p":4.5}],"moq":5,"desc":"","color":false,"ref":"ACC-08","id":"ACC-08"},{"img":"img/NOE-01.jpg","cat":"Noël","name":"Décorations de Noël – flocons (chaque)","variants":[{"l":"Pièce (chaque)","p":3.0}],"moq":5,"desc":"","color":false,"ref":"NOE-01","id":"NOE-01"},{"img":"img/NOE-02.jpg","cat":"Noël","name":"Décorations de Noël – médaillons (chaque)","variants":[{"l":"Pièce (chaque)","p":2.5}],"moq":5,"desc":"","color":false,"ref":"NOE-02","id":"NOE-02"},{"img":"img/MOB-01.jpg","cat":"Mobilier","name":"Tabouret rayé noir et blanc","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-01","id":"MOB-01"},{"img":"img/MOB-02.jpg","cat":"Mobilier","name":"Tabouret rayé jaune","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-02","id":"MOB-02"},{"img":"img/MOB-03.jpg","cat":"Mobilier","name":"Tabouret rayé bleu et orange","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-03","id":"MOB-03"},{"img":"img/MOB-04.jpg","cat":"Mobilier","name":"Tabouret rayé bordeaux","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-04","id":"MOB-04"},{"img":"img/MOB-05.jpg","cat":"Mobilier","name":"Tabouret rayé marron et blanc","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-05","id":"MOB-05"},{"img":"img/MOB-06.jpg","cat":"Mobilier","name":"Tabouret rayé vert","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-06","id":"MOB-06"},{"img":"img/MOB-07.jpg","cat":"Mobilier","name":"Tabouret rayé bleu","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-07","id":"MOB-07"},{"img":"img/MOB-08.jpg","cat":"Mobilier","name":"Lot de tabourets rayés marron","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-08","id":"MOB-08"},{"img":"img/MOB-09.jpg","cat":"Mobilier","name":"Table d'appoint géométrique bleue","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-09","id":"MOB-09"},{"img":"img/MOB-10.jpg","cat":"Mobilier","name":"Table d'appoint géométrique rouge et bleue","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-10","id":"MOB-10"},{"img":"img/MOB-11.jpg","cat":"Mobilier","name":"Table d'appoint sablier beige","variants":[{"l":"H 50 × L 40 cm","p":110}],"moq":1,"desc":"Incrustation os et bois. Toutes couleurs sur demande.","color":true,"ref":"MOB-11","id":"MOB-11"},{"img":"img/MOB-12.jpg","cat":"Mobilier","name":"Pouf table rayé multicolore","variants":[{"l":"H 50 × L 80 cm","p":270}],"moq":1,"desc":"Grand modèle, rayures multicolores.","color":true,"ref":"MOB-12","id":"MOB-12"},{"img":"img/MOB-13.jpg","cat":"Mobilier","name":"Table basse rayée marron et blanc","variants":[{"l":"H 50 × L 80 cm","p":250}],"moq":1,"desc":"Grand modèle.","color":true,"ref":"MOB-13","id":"MOB-13"},{"img":"img/MOB-14.jpg","cat":"Mobilier","name":"Table basse rayée noir et blanc","variants":[{"l":"H 50 × L 80 cm","p":250}],"moq":1,"desc":"Grand modèle.","color":true,"ref":"MOB-14","id":"MOB-14"},{"img":"img/MOB-15.jpg","cat":"Mobilier","name":"Table champignon rayée multicolore","variants":[{"l":"H 50 × L 80 cm","p":250}],"moq":1,"desc":"Grand modèle sur piètement.","color":true,"ref":"MOB-15","id":"MOB-15"},{"img":"img/MOB-16.jpg","cat":"Mobilier","name":"Table d'appoint chevrons marron","variants":[{"l":"H 50 × L 40 cm","p":130}],"moq":1,"desc":"Plateau rond, pied cylindre rayé.","color":true,"ref":"MOB-16","id":"MOB-16"},{"img":"img/MOB-17.jpg","cat":"Mobilier","name":"Table d'appoint rosace marron","variants":[{"l":"H 50 × L 40 cm","p":130}],"moq":1,"desc":"Plateau rond, pied cylindre rayé.","color":true,"ref":"MOB-17","id":"MOB-17"},{"img":"img/MOB-18.jpg","cat":"Mobilier","name":"Table d'appoint chevrons noir et blanc","variants":[{"l":"H 50 × L 40 cm","p":130}],"moq":1,"desc":"Plateau rond, pied cylindre rayé.","color":true,"ref":"MOB-18","id":"MOB-18"},{"img":"img/MOB-19.jpg","cat":"Mobilier","name":"Table d'appoint rosace noir et blanc","variants":[{"l":"H 50 × L 40 cm","p":130}],"moq":1,"desc":"Plateau rond, pied cylindre rayé.","color":true,"ref":"MOB-19","id":"MOB-19"},{"img":"img/MOB-20.jpg","cat":"Mobilier","name":"Set de 3 tables gigognes rosace noir et blanc","variants":[{"l":"Set complet 3 pièces (30 + 40 + 50 cm)","p":220}],"moq":1,"desc":"Trois tables, pieds noirs.","color":true,"ref":"MOB-20","id":"MOB-20"},{"img":"img/MOB-21.jpg","cat":"Mobilier","name":"Set de 3 tables gigognes chevrons noir et blanc","variants":[{"l":"Set complet 3 pièces (30 + 40 + 50 cm)","p":220}],"moq":1,"desc":"Trois tables, pieds noirs.","color":true,"ref":"MOB-21","id":"MOB-21"},{"img":"img/MOB-22.jpg","cat":"Mobilier","name":"Set de 3 tables gigognes chevrons marron","variants":[{"l":"Set complet 3 pièces (30 + 40 + 50 cm)","p":220}],"moq":1,"desc":"Trois tables, pieds noirs.","color":true,"ref":"MOB-22","id":"MOB-22"},{"img":"img/OBJ-01.jpg","cat":"Objets incrustés","name":"Plateau incrusté – Rosace","variants":[{"l":"44 × 34 cm","p":130},{"l":"39 × 29 cm","p":100}],"moq":1,"desc":"Plateau à poignées, incrustation.","color":true,"ref":"OBJ-01","id":"OBJ-01"},{"img":"img/OBJ-02.jpg","cat":"Objets incrustés","name":"Plateau incrusté – Chevrons bleus","variants":[{"l":"44 × 34 cm","p":130},{"l":"39 × 29 cm","p":100}],"moq":1,"desc":"Plateau à poignées, incrustation.","color":true,"ref":"OBJ-02","id":"OBJ-02"},{"img":"img/OBJ-03.jpg","cat":"Objets incrustés","name":"Plateau incrusté – Chevrons beiges","variants":[{"l":"44 × 34 cm","p":130},{"l":"39 × 29 cm","p":100}],"moq":1,"desc":"Plateau à poignées, incrustation.","color":true,"ref":"OBJ-03","id":"OBJ-03"},{"img":"img/OBJ-04.jpg","cat":"Objets incrustés","name":"Boîte incrustée – Feuillage noir","variants":[{"l":"22 × 8 × 10 cm","p":55},{"l":"30 × 20 × 10 cm","p":120},{"l":"11 × 8 × 10 cm","p":30},{"l":"8 × 16 × 25 cm","p":100}],"moq":1,"desc":"Boîte incrustée, plusieurs formats.","color":true,"ref":"OBJ-04","id":"OBJ-04"},{"img":"img/OBJ-05.jpg","cat":"Objets incrustés","name":"Boîte incrustée – Feuillage rouge","variants":[{"l":"22 × 8 × 10 cm","p":55},{"l":"30 × 20 × 10 cm","p":120},{"l":"11 × 8 × 10 cm","p":30},{"l":"8 × 16 × 25 cm","p":100}],"moq":1,"desc":"Boîte incrustée, plusieurs formats.","color":true,"ref":"OBJ-05","id":"OBJ-05"},{"img":"img/OBJ-06.jpg","cat":"Objets incrustés","name":"Boîte cubes ouverte – intérieur laiton","variants":[{"l":"22 × 8 × 10 cm","p":55},{"l":"30 × 20 × 10 cm","p":120},{"l":"11 × 8 × 10 cm","p":30},{"l":"8 × 16 × 25 cm","p":100}],"moq":1,"desc":"Boîte avec intérieur laiton.","color":true,"ref":"OBJ-06","id":"OBJ-06"},{"img":"img/OBJ-07.jpg","cat":"Objets incrustés","name":"Boîte cubes noir et orange","variants":[{"l":"22 × 8 × 10 cm","p":55},{"l":"30 × 20 × 10 cm","p":120},{"l":"11 × 8 × 10 cm","p":30},{"l":"8 × 16 × 25 cm","p":100}],"moq":1,"desc":"Boîte incrustée, motif cubes.","color":true,"ref":"OBJ-07","id":"OBJ-07"},{"img":"img/OBJ-08.jpg","cat":"Objets incrustés","name":"Boîte cubes rouge et blanc","variants":[{"l":"22 × 8 × 10 cm","p":55},{"l":"30 × 20 × 10 cm","p":120},{"l":"11 × 8 × 10 cm","p":30},{"l":"8 × 16 × 25 cm","p":100}],"moq":1,"desc":"Boîte incrustée, motif cubes.","color":true,"ref":"OBJ-08","id":"OBJ-08"},{"img":"img/OBJ-09.jpg","cat":"Objets incrustés","name":"Boîtes assorties","variants":[{"l":"22 × 8 × 10 cm","p":55},{"l":"30 × 20 × 10 cm","p":120},{"l":"11 × 8 × 10 cm","p":30},{"l":"8 × 16 × 25 cm","p":100}],"moq":1,"desc":"Boîtes incrustées assorties.","color":true,"ref":"OBJ-09","id":"OBJ-09"},{"img":"img/OBJ-10.jpg","cat":"Objets incrustés","name":"Boîte cendrier laiton – verte","variants":[{"l":"18 × 18 × 8 cm","p":30}],"moq":1,"desc":"Boîte avec cendrier laiton.","color":true,"ref":"OBJ-10","id":"OBJ-10"},{"img":"img/OBJ-11.jpg","cat":"Objets incrustés","name":"Boîte cendrier laiton – rouge","variants":[{"l":"18 × 18 × 8 cm","p":30}],"moq":1,"desc":"Boîte avec cendrier laiton.","color":true,"ref":"OBJ-11","id":"OBJ-11"},{"img":"img/OBJ-12.jpg","cat":"Objets incrustés","name":"Boîte cendrier laiton – bleue","variants":[{"l":"18 × 18 × 8 cm","p":30}],"moq":1,"desc":"Boîte avec cendrier laiton.","color":true,"ref":"OBJ-12","id":"OBJ-12"},{"img":"img/OBJ-13.jpg","cat":"Objets incrustés","name":"Boîte cendrier laiton – noire","variants":[{"l":"18 × 18 × 8 cm","p":30}],"moq":1,"desc":"Boîte avec cendrier laiton.","color":true,"ref":"OBJ-13","id":"OBJ-13"}];
+const CFG = { seller: { name: 'Atelier de Abdul', phone: '+212 687 518 966', wa: '212687518966', email: 'chaabisouk@gmail.com' },
+  lead: 'environ 2 semaines, selon la quantité commandée', leadLong: 'Fabrication sur commande, environ 2 semaines selon la quantité commandée.' };
+const CATS = ['Luminaires', 'Miroirs', 'Déco murale', 'Patères', 'Bougeoirs & accessoires', 'Noël', 'Mobilier', 'Objets incrustés'];
+const byRef = Object.fromEntries(PRODUCTS.map((p, i) => { p._i = i; return [p.ref, p]; }));
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cents = x => Math.round(x * 100);
+function money(c, dec) {
+  const neg = c < 0; c = Math.abs(c);
+  const e = Math.floor(c / 100), f = c % 100;
+  const s = String(e).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return (neg ? '−' : '') + s + (f || dec ? ',' + String(f).padStart(2, '0') : '') + ' €';
+}
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+const state = { cat: 'Tous', q: '', cart: {}, notes: {}, layer: null, ref: null,
+  c: { name: '', company: '', email: '', phone: '', address: '', zip: '', city: '', country: '', needBy: '', notes: '' }, ship: 'yes', pay: '2', number: '', errs: {} };
+let lastFocus = null;
+try {
+  const s = JSON.parse(localStorage.getItem('atelier-abdul-v1') || 'null');
+  if (s) { state.cart = s.cart || {}; state.notes = s.notes || {}; Object.assign(state.c, s.c || {}); state.ship = s.ship || 'yes'; state.pay = s.pay || '2'; state.number = s.number || ''; }
+} catch (e) {}
+let saveT;
+function save() { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem('atelier-abdul-v1', JSON.stringify({ cart: state.cart, notes: state.notes, c: state.c, ship: state.ship, pay: state.pay, number: state.number })); } catch (e) {} }, 250); }
+
+/* ---------- panier ---------- */
+function qtyOf(ref) { let n = 0; for (const k in state.cart) if (k.split('|')[0] === ref) n += state.cart[k]; return n; }
+function setQty(ref, vi, n) { n = Math.max(0, Math.min(99999, Math.floor(Number(n)) || 0)); const k = ref + '|' + vi; if (n) state.cart[k] = n; else delete state.cart[k]; save(); }
+function cartLines() {
+  const out = [];
+  for (const k in state.cart) {
+    const [ref, vi] = k.split('|'); const p = byRef[ref]; if (!p) continue; const v = p.variants[+vi]; if (!v) continue;
+    const qty = state.cart[k], unit = cents(v.p); out.push({ p, v, vi: +vi, qty, unit, total: unit * qty });
+  }
+  return out.sort((a, b) => a.p._i - b.p._i || a.vi - b.vi);
+}
+function cartRefs() { return [...new Set(cartLines().map(l => l.p.ref))].map(r => byRef[r]); }
+function moqIssues() { return cartRefs().filter(p => qtyOf(p.ref) < p.moq); }
+function totals() { const L = cartLines(); return { n: L.reduce((a, l) => a + l.qty, 0), c: L.reduce((a, l) => a + l.total, 0) }; }
+function plural(n, w) { return n + ' ' + w + (n > 1 ? 's' : ''); }
+
+/* ---------- catalogue ---------- */
+function minPrice(p) { return Math.min(...p.variants.map(v => v.p)); }
+function filtered() {
+  const q = norm(state.q.trim());
+  return PRODUCTS.filter(p => (state.cat === 'Tous' || p.cat === state.cat) && (!q || norm(p.name + ' ' + p.ref + ' ' + p.cat).includes(q)));
+}
+function renderChips() {
+  const counts = {}; PRODUCTS.forEach(p => counts[p.cat] = (counts[p.cat] || 0) + 1);
+  const all = [['Tous', PRODUCTS.length]].concat(CATS.filter(c => counts[c]).map(c => [c, counts[c]]));
+  $('#chips').innerHTML = all.map(([c, n]) => `<button class="chip" data-act="cat" data-cat="${esc(c)}" aria-pressed="${state.cat === c}">${esc(c)}<span class="c">${n}</span></button>`).join('');
+}
+function cardHTML(p) {
+  const q = qtyOf(p.ref), nv = p.variants.length;
+  const moqTxt = p.moq === 1 ? 'Min. 1 pièce' : 'Min. ' + p.moq + ' pièces';
+  return `<article><button class="card" data-act="open" data-ref="${p.ref}" aria-label="${esc(p.name)}, ${p.ref}">
+    <span class="ph"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy" decoding="async"></span>
+    <span class="meta"><span class="ref">${p.ref}</span><h3>${esc(p.name)}</h3>
+    <span class="pr">${nv > 1 ? 'à partir de ' : ''}<b>${money(cents(minPrice(p)))}</b></span>
+    <span class="tags"><span class="tag moq">${moqTxt}</span>${nv > 1 ? `<span class="tag">${nv} ${p.variants[0].l.includes('cm') || p.variants[0].l.includes('×') ? 'tailles' : 'options'}</span>` : ''}</span></span>
+    ${q ? `<span class="incart">${q} ajouté${q > 1 ? 's' : ''}</span>` : ''}</button></article>`;
+}
+function renderGrid() {
+  const L = filtered();
+  $('#count').textContent = L.length + (L.length > 1 ? ' produits' : ' produit') + (state.cat !== 'Tous' ? ' · ' + state.cat : '');
+  $('#grid').innerHTML = L.length ? L.map(cardHTML).join('') : '<div class="empty" style="grid-column:1/-1">Aucun produit ne correspond à cette recherche.</div>';
+}
+function renderCartBtn() {
+  const t = totals();
+  $('#cartn').textContent = t.n;
+  $('#carttot').textContent = t.n ? money(t.c) : '';
+}
+
+/* ---------- couches ---------- */
+function stepper(ref, vi, v) {
+  return `<div class="st"><button type="button" data-act="dec" data-ref="${ref}" data-vi="${vi}" aria-label="Retirer une pièce">−</button><input inputmode="numeric" pattern="[0-9]*" data-qty data-ref="${ref}" data-vi="${vi}" value="${v}" aria-label="Quantité"><button type="button" data-act="inc" data-ref="${ref}" data-vi="${vi}" aria-label="Ajouter une pièce">+</button></div>`;
+}
+function moqLine(p) {
+  const q = qtyOf(p.ref), unit = p.moq === 1 ? 'pièce' : 'pièces';
+  if (!q) return `<div class="moqline">Minimum de commande : ${p.moq} ${unit}${p.moq > 1 ? ', toutes tailles confondues' : ''}.</div>`;
+  if (q < p.moq) return `<div class="moqline warn">Il manque ${plural(p.moq - q, 'pièce')} pour atteindre le minimum de ${p.moq}.</div>`;
+  return `<div class="moqline ok">Minimum atteint : ${plural(q, 'pièce')} sélectionnée${q > 1 ? 's' : ''}.</div>`;
+}
+function productLayer(p) {
+  const rows = p.variants.map((v, i) => `<div class="vr"><div class="vl">${esc(v.l)}</div><div class="vp">${money(cents(v.p))}</div>${stepper(p.ref, i, state.cart[p.ref + '|' + i] || 0)}</div>`).join('');
+  const ph = p.color ? 'Couleur souhaitée (toutes couleurs disponibles sur demande)' : 'Finition ou remarque (facultatif)';
+  const t = totals();
+  return `<div class="ov" data-act="scrim"><div class="panel" role="dialog" aria-modal="true" aria-label="${esc(p.name)}" tabindex="-1">
+    <button class="x" data-act="close" aria-label="Fermer">×</button>
+    <div class="pd"><div class="big"><img src="${p.img}" alt="${esc(p.name)}"></div>
+    <div class="info"><div><span class="ref">${p.ref} · ${esc(p.cat)}</span><h2>${esc(p.name)}</h2></div>
+      ${p.desc ? `<p>${esc(p.desc)}</p>` : ''}
+      <div class="vrows">${rows}</div>
+      <div id="moqline">${moqLine(p)}</div>
+      <label class="f">${p.color ? 'Couleur' : 'Remarque'}<textarea class="inp" id="pnote" placeholder="${esc(ph)}" data-note="${p.ref}">${esc(state.notes[p.ref] || '')}</textarea></label>
+      <div class="row"><button class="btn" data-act="cart">${t.n ? 'Voir ma commande (' + t.n + ')' : 'Voir ma commande'}</button><button class="btn alt" data-act="close">Continuer mes choix</button></div>
+      <div class="small">Fabrication sur commande, ${CFG.lead}.</div>
+    </div></div></div></div>`;
+}
+function cartLayer() {
+  const refs = cartRefs(), t = totals(), bad = moqIssues();
+  const body = refs.length ? refs.map(p => {
+    const ls = cartLines().filter(l => l.p.ref === p.ref);
+    const q = qtyOf(p.ref), short = q < p.moq;
+    return `<div class="cl"><div class="hd"><img src="${p.img}" alt=""><div><span class="ref">${p.ref}</span><b>${esc(p.name)}</b></div><button class="lnk" data-act="remove" data-ref="${p.ref}">Retirer</button></div>
+      ${ls.map(l => `<div class="vr"><div class="vl">${esc(l.v.l)}<div class="small mono">${money(l.unit, true)} / pièce</div></div>${stepper(p.ref, l.vi, l.qty)}<div class="vp">${money(l.total)}</div></div>`).join('')}
+      ${short ? `<div class="moqline warn">Minimum ${p.moq} pièces : il en manque ${p.moq - q}. <button class="lnk" data-act="open" data-ref="${p.ref}">Modifier</button></div>` : `<button class="lnk" style="justify-self:start" data-act="open" data-ref="${p.ref}">Ajouter une autre taille</button>`}
+      <input class="inp" data-note="${p.ref}" value="${esc(state.notes[p.ref] || '')}" placeholder="${p.color ? 'Couleur souhaitée' : 'Remarque (facultatif)'}" aria-label="Remarque pour ${esc(p.name)}"></div>`;
+  }).join('') : '<div class="empty">Votre commande est vide.<br>Ouvrez un produit pour choisir une taille et une quantité.</div>';
+  return `<div class="ov side" data-act="scrim"><div class="panel" role="dialog" aria-modal="true" aria-label="Ma commande" tabindex="-1">
+    <button class="x" data-act="close" aria-label="Fermer" style="top:calc(10px + env(safe-area-inset-top,0px))">×</button>
+    <div class="dh"><h2>Ma commande</h2><p>${t.n ? plural(t.n, 'pièce') + ' · ' + plural(refs.length, 'produit') : 'Aucun article'}</p></div>
+    <div class="db">${body}</div>
+    <div class="df"><div class="tot"><span>Total articles</span><b>${money(t.c, true)}</b></div>
+      <div class="small">Expédition internationale sur devis, hors total.</div>
+      ${bad.length ? `<div class="moqline warn">${bad.length === 1 ? 'Un produit n\'atteint pas' : plural(bad.length, 'produit') + ' n\'atteignent pas'} son minimum de commande.</div>` : ''}
+      <button class="btn" data-act="checkout" ${(!t.n || bad.length) ? 'disabled aria-disabled="true"' : ''}>Établir ma proforma</button></div></div></div>`;
+}
+const FIELDS = [['name', 'Nom complet', 1, 'text', 'name'], ['company', 'Société', 0, 'text', 'organization'], ['email', 'E-mail', 1, 'email', 'email'], ['phone', 'Téléphone / WhatsApp', 1, 'tel', 'tel'],
+  ['address', 'Adresse de livraison', 1, 'text', 'street-address'], ['zip', 'Code postal', 0, 'text', 'postal-code'], ['city', 'Ville', 1, 'text', 'address-level2'], ['country', 'Pays', 1, 'text', 'country-name']];
+function checkoutLayer() {
+  if (!state.number) { const d = new Date(); state.number = 'PF-' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '-' + String(Math.floor(1000 + Math.random() * 9000)); save(); }
+  const f = (k, lab, req, type, ac) => `<label class="f"><span>${lab}${req ? ' <span class="req">*</span>' : ''}</span><input class="inp" id="f_${k}" data-field="${k}" type="${type}" autocomplete="${ac}" value="${esc(state.c[k])}"><span class="err" id="e_${k}" hidden></span></label>`;
+  const F = Object.fromEntries(FIELDS.map(x => [x[0], f(...x)]));
+  return `<div class="ov wide" data-act="scrim"><div class="panel" role="dialog" aria-modal="true" aria-label="Facture proforma" tabindex="-1">
+    <button class="x" data-act="close" aria-label="Fermer">×</button>
+    <div class="co"><div class="form"><div><h2>Votre proforma</h2><p class="small" style="margin:6px 0 0">N° <span class="mono">${state.number}</span> · renseignez vos coordonnées, puis téléchargez la proforma.</p></div>
+      <fieldset><legend>Vos coordonnées</legend><div class="g2">${F.name}${F.company}${F.email}${F.phone}</div>${F.address}<div class="g2">${F.zip}${F.city}</div>${F.country}</fieldset>
+      <fieldset><legend>Délai souhaité</legend><label class="f">Livraison souhaitée avant le (facultatif)<input class="inp" id="f_needBy" data-field="needBy" type="text" placeholder="ex. 15 janvier 2027, ou « dès que possible »" value="${esc(state.c.needBy)}"></label><div class="small">Fabrication sur commande : ${CFG.lead}.</div></fieldset>
+      <fieldset><legend>Livraison</legend>
+        <label class="opt"><input type="radio" name="ship" value="yes" ${state.ship === 'yes' ? 'checked' : ''}><span>J'ai besoin de l'expédition<small>Un devis d'expédition vous est communiqué séparément.</small></span></label>
+        <label class="opt"><input type="radio" name="ship" value="no" ${state.ship === 'no' ? 'checked' : ''}><span>Sans expédition<small>Enlèvement ou transporteur organisé par mes soins.</small></span></label></fieldset>
+      <fieldset><legend>Paiement</legend>
+        <label class="opt"><input type="radio" name="pay" value="2" ${state.pay === '2' ? 'checked' : ''}><span>2 versements : 50 % + 50 %<small>La moitié à la commande, le reste à la fin de fabrication.</small></span></label>
+        <label class="opt"><input type="radio" name="pay" value="3" ${state.pay === '3' ? 'checked' : ''}><span>3 versements : 40 % + 30 % + 30 %<small>À la commande, en cours de fabrication, puis avant expédition.</small></span></label></fieldset>
+      <label class="f">Remarques (facultatif)<textarea class="inp" id="f_notes" data-field="notes">${esc(state.c.notes)}</textarea></label>
+    </div>
+    <div class="sum"><h3>Récapitulatif</h3><div id="sumlines"></div><div id="sumtot"></div><h3>Échéancier</h3><div class="sched" id="sched"></div>
+      <div id="status" role="status" hidden></div>
+      <div class="row" style="flex-direction:column"><button class="btn" id="dlbtn" data-act="pdf">Télécharger la proforma (PDF)</button>
+        <a class="btn wa" id="wabtn" data-act="wa" target="_blank" rel="noopener" href="#">Envoyer la commande par WhatsApp</a>
+        <button class="btn alt" data-act="mail">E-mail : copier le message</button></div>
+      <p class="small" style="margin:0">Téléchargez la proforma, puis joignez-la à votre message WhatsApp ou e-mail. Rien n'est envoyé automatiquement : la commande est confirmée par l'atelier.</p>
+      <div class="contact">WhatsApp : <b>${CFG.seller.phone}</b><br>E-mail : <b>${CFG.seller.email}</b></div>
+      <textarea class="copybox" id="copybox" readonly hidden aria-label="Message à copier"></textarea>
+    </div></div></div></div>`;
+}
+function schedule(total) {
+  if (state.pay === '3') { const a = Math.round(total * .4), b = Math.round(total * .3); return [{ label: 'À la commande (40 %)', amount: a }, { label: 'En cours de fabrication (30 %)', amount: b }, { label: 'À la fin de fabrication, avant expédition (30 %)', amount: total - a - b }]; }
+  const a = Math.round(total / 2); return [{ label: 'À la commande (50 %)', amount: a }, { label: 'À la fin de fabrication, avant expédition (50 %)', amount: total - a }];
+}
+function orderText(short) {
+  const t = totals(), c = state.c, S = schedule(t.c);
+  let s = `Bonjour ${CFG.seller.name},\nJe souhaite passer la commande suivante (proforma ${state.number}).\n\n`;
+  cartLines().forEach(l => { s += `• ${l.p.ref} ${l.p.name} – ${l.v.l} × ${l.qty} = ${money(l.total, true)}` + (state.notes[l.p.ref] ? ` (${state.notes[l.p.ref]})` : '') + '\n'; });
+  s += `\nTotal articles : ${money(t.c, true)} (hors expédition)\nExpédition : ${state.ship === 'yes' ? 'oui, merci de m\'envoyer un devis' : 'non'}\nPaiement : ${state.pay === '3' ? '3 versements (40/30/30 %)' : '2 versements (50/50 %)'}\n`;
+  if (c.needBy) s += `Livraison souhaitée : ${c.needBy}\n`;
+  s += `\n${c.name}${c.company ? ' – ' + c.company : ''}\n${c.address}, ${[c.zip, c.city].filter(Boolean).join(' ')}, ${c.country}\n${c.phone} · ${c.email}\n`;
+  if (c.notes) s += `\nRemarques : ${c.notes}\n`;
+  return s;
+}
+function waHref() {
+  let txt = orderText();
+  if (encodeURIComponent(txt).length > 1800) {
+    const t = totals(), c = state.c;
+    txt = `Bonjour ${CFG.seller.name},\nJe souhaite passer commande : ${plural(t.n, 'pièce')}, total ${money(t.c, true)} hors expédition (proforma ${state.number}, détail dans le PDF joint).\n${c.name}${c.company ? ' – ' + c.company : ''}, ${c.city}, ${c.country}\n${c.phone} · ${c.email}`;
+  }
+  return 'https://wa.me/' + CFG.seller.wa + '?text=' + encodeURIComponent(txt);
+}
+function updateSummary() {
+  const L = cartLines(), t = totals();
+  const sl = $('#sumlines'); if (!sl) return;
+  sl.innerHTML = L.map(l => `<div class="sl"><span class="q">${l.qty}×</span><span>${esc(l.p.name)}<em>${l.p.ref} · ${esc(l.v.l)}${state.notes[l.p.ref] ? ' · ' + esc(state.notes[l.p.ref]) : ''}</em></span><span class="t">${money(l.total, true)}</span></div>`).join('');
+  $('#sumtot').innerHTML = `<div class="tot" style="padding-top:4px"><span>Total articles</span><b>${money(t.c, true)}</b></div><div class="small">Expédition : ${state.ship === 'yes' ? 'sur devis' : 'non demandée'}</div>`;
+  $('#sched').innerHTML = schedule(t.c).map(s => `<div><span>${s.label}</span><b>${money(s.amount, true)}</b></div>`).join('');
+  const wa = $('#wabtn'); if (wa) wa.href = waHref();
+}
+function validate() {
+  let ok = true, first = null; state.errs = {};
+  FIELDS.forEach(([k, lab, req, type]) => {
+    const v = (state.c[k] || '').trim(); let m = '';
+    if (req && !v) m = 'Ce champ est obligatoire.'; else if (type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) m = 'Adresse e-mail non valide.';
+    const el = $('#f_' + k), er = $('#e_' + k);
+    if (el) { el.classList.toggle('bad', !!m); } if (er) { er.hidden = !m; er.textContent = m; }
+    if (m) { ok = false; first = first || el; }
+  });
+  if (!ok) { showStatus('Complétez les champs signalés avant de continuer.', true); if (first) first.focus(); }
+  return ok;
+}
+function showStatus(msg, bad) { const s = $('#status'); if (!s) return; s.hidden = false; s.className = 'status' + (bad ? ' bad' : ''); s.textContent = msg; }
+function pdfData() {
+  const L = cartLines(), t = totals(), c = state.c;
+  return { seller: CFG.seller, number: state.number, date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+    customer: { name: c.name.trim(), company: c.company.trim(), email: c.email.trim(), phone: c.phone.trim(), address: c.address.trim(), zip: c.zip.trim(), city: c.city.trim(), country: c.country.trim() },
+    leadTime: CFG.leadLong, ship: state.ship === 'yes', shipText: state.ship === 'yes' ? 'Expédition internationale demandée : devis communiqué séparément.' : 'Sans expédition (enlèvement ou transporteur du client).',
+    needBy: c.needBy.trim(), payText: state.pay === '3' ? '3 versements : 40 % / 30 % / 30 %' : '2 versements : 50 % / 50 %',
+    lines: L.map(l => ({ ref: l.p.ref, name: l.p.name + (state.notes[l.p.ref] ? ' (' + state.notes[l.p.ref] + ')' : ''), variant: l.v.l, qty: l.qty, unit: l.unit, total: l.total })),
+    itemsTotal: t.c, schedule: schedule(t.c), notes: c.notes.trim(),
+    legal: 'Cette proforma n\'est pas une facture définitive. La commande est confirmée par l\'atelier après réception du premier versement. Les coordonnées bancaires sont communiquées lors de la confirmation. Prix en euros, départ atelier, hors expédition.' };
+}
+async function doPdf() {
+  if (!validate()) return;
+  let bytes;
+  try { bytes = buildProformaPdf(pdfData()); } catch (e) { showStatus('La proforma n\'a pas pu être générée. Utilisez le message à copier ci-dessous.', true); showCopy(); return; }
+  let dl = null; try { dl = await (window.claude && window.claude.use ? window.claude.use('downloads') : null); } catch (e) {}
+  if (!dl) {
+    /* Site hébergé hors Claude : téléchargement navigateur standard */
+    try {
+      const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+      const a = document.createElement('a'); a.href = url; a.download = 'Proforma-' + state.number + '.pdf'; a.rel = 'noopener';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      showStatus('Proforma téléchargée. Joignez-la à votre message WhatsApp ou e-mail.');
+    } catch (e) { showStatus('Le téléchargement n\'est pas disponible. Copiez le message ci-dessous ou envoyez-le par WhatsApp.', true); showCopy(); }
+    return;
+  }
+  try { await dl.save({ filename: 'Proforma-' + state.number + '.pdf', data: bytes }); showStatus('Proforma enregistrée. Joignez-la à votre message WhatsApp ou e-mail.'); }
+  catch (e) { if (e && e.code === 'declined') showStatus('Téléchargement annulé.', true); else { showStatus('Le téléchargement a échoué. Copiez le message ci-dessous.', true); showCopy(); } }
+}
+function showCopy() { const b = $('#copybox'); if (!b) return; b.hidden = false; b.value = orderText(); }
+async function doMail() {
+  if (!validate()) return;
+  const txt = orderText() + '\n(Proforma PDF en pièce jointe.)', subj = 'Commande ' + state.number + ' – ' + state.c.name;
+  const full = 'À : ' + CFG.seller.email + '\nObjet : ' + subj + '\n\n' + txt;
+  showCopy(); const b = $('#copybox'); b.value = full;
+  try { await navigator.clipboard.writeText(full); showStatus('Message copié. Collez-le dans un e-mail adressé à ' + CFG.seller.email + ' et joignez la proforma.'); }
+  catch (e) { b.focus(); b.select(); showStatus('Sélectionnez et copiez le message ci-dessous, puis envoyez-le à ' + CFG.seller.email + '.'); }
+}
+
+/* ---------- gestion des couches ---------- */
+function renderLayer() {
+  const host = $('#layer');
+  if (!state.layer) { host.innerHTML = ''; document.body.classList.remove('lock'); return; }
+  const sc = host.firstElementChild && $('.panel', host) ? $('.panel', host).scrollTop : 0;
+  host.innerHTML = state.layer === 'product' ? productLayer(byRef[state.ref]) : state.layer === 'cart' ? cartLayer() : checkoutLayer();
+  document.body.classList.add('lock');
+  const p = $('.panel', host); if (p) { p.scrollTop = sc; }
+  const db = $('.db', host);
+  if (state.layer === 'checkout') updateSummary();
+}
+function openLayer(name, ref) {
+  if (!state.layer) lastFocus = document.activeElement;
+  state.layer = name; state.ref = ref || state.ref; renderLayer();
+  const p = $('#layer .panel'); if (p) p.focus({ preventScroll: true });
+}
+function closeLayer() { state.layer = null; renderLayer(); renderGrid(); renderCartBtn(); if (lastFocus && lastFocus.focus) { try { lastFocus.focus({ preventScroll: true }); } catch (e) {} } }
+function refreshAfterQty() {
+  renderCartBtn();
+  if (state.layer === 'cart') { const db = $('#layer .db'), sc = db ? db.scrollTop : 0; renderLayer(); const d2 = $('#layer .db'); if (d2) d2.scrollTop = sc; }
+  else if (state.layer === 'product') {
+    const p = byRef[state.ref]; $('#moqline').innerHTML = moqLine(p);
+    $$('#layer .st input').forEach(i => { i.value = state.cart[i.dataset.ref + '|' + i.dataset.vi] || 0; });
+    const b = $('#layer .row .btn'); if (b) { const t = totals(); b.textContent = t.n ? 'Voir ma commande (' + t.n + ')' : 'Voir ma commande'; }
+  }
+}
+const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const act = el.dataset.act;
+  if (act === 'scrim') { if (e.target === el) closeLayer(); return; }
+  if (act === 'wa') { if (!validate()) e.preventDefault(); else { el.href = waHref(); showStatus('WhatsApp s\'ouvre dans un nouvel onglet : joignez la proforma PDF téléchargée avant d\'envoyer.'); } return; }
+  e.preventDefault();
+  const ref = el.dataset.ref, vi = el.dataset.vi;
+  if (act === 'cat') { state.cat = el.dataset.cat; renderChips(); renderGrid(); }
+  else if (act === 'open') openLayer('product', ref);
+  else if (act === 'close') closeLayer();
+  else if (act === 'cart') openLayer('cart');
+  else if (act === 'inc') { setQty(ref, vi, (state.cart[ref + '|' + vi] || 0) + 1); refreshAfterQty(); }
+  else if (act === 'dec') { setQty(ref, vi, (state.cart[ref + '|' + vi] || 0) - 1); refreshAfterQty(); }
+  else if (act === 'remove') { Object.keys(state.cart).forEach(k => { if (k.split('|')[0] === ref) delete state.cart[k]; }); save(); refreshAfterQty(); }
+  else if (act === 'checkout') { if (!el.disabled) openLayer('checkout'); }
+  else if (act === 'pdf') doPdf();
+  else if (act === 'mail') doMail();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.matches('[data-qty]')) { setQty(t.dataset.ref, t.dataset.vi, t.value); refreshAfterQty(); }
+  else if (t.name === 'ship') { state.ship = t.value; save(); updateSummary(); }
+  else if (t.name === 'pay') { state.pay = t.value; save(); updateSummary(); }
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'q') { state.q = t.value; renderGrid(); }
+  else if (t.dataset.note) { const v = t.value.trim(); if (v) state.notes[t.dataset.note] = v; else delete state.notes[t.dataset.note]; save(); }
+  else if (t.dataset.field) { state.c[t.dataset.field] = t.value; t.classList.remove('bad'); const er = $('#e_' + t.dataset.field); if (er) er.hidden = true; save(); updateSummary(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && state.layer) closeLayer();
+  if (e.key === 'Tab' && state.layer) {
+    const p = $('#layer .panel'); if (!p) return;
+    const f = $$('button:not([disabled]), input, textarea, a[href], [tabindex="0"]', p).filter(x => !x.hidden && x.offsetParent !== null);
+    if (!f.length) return; const a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === a || document.activeElement === p)) { e.preventDefault(); z.focus(); }
+    else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+  }
+});
+$('#leadline').textContent = CFG.lead.charAt(0).toUpperCase() + CFG.lead.slice(1);
+renderChips(); renderGrid(); renderCartBtn();
+</script>
+</html>
